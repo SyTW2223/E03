@@ -1,3 +1,10 @@
+# Practica 4 Ejercicios con el repositorio del proyecto
+- Alumno: Ana Giambona Diaz, Hector Rodriguez Alonso, Jacob Santana Rodriguez.
+- Universidad de La Laguna
+- Curso 4
+- Asignatura: Sistemas y Tecnologias Web
+
+
 # Sample MEAN application
 
 This application is an example of how to deploy Node.js applications in high availability mode in the Azure cloud.
