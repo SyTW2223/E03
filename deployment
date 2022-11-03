@@ -1,0 +1,14 @@
+#
+# Deployment environment variables
+#
+
+export DATA_FOLDER="/mnt/sharedfolder_client"
+export APP_FOLDER="/home/usuario/sample-mean"
+export DATABASE_USER="anav"
+export DATABASE_NAME="todo"
+export DATABASE_PASSWORD="anav"
+export DATABASE_HOST="172.16.113.2"
+export DATABASE_PORT="27017"
+export DATABASE_CONNECTION_OPTIONS="directConnection=true&authSource=admin"
+export BACKEND_PORT="3000"
+export PATH="/opt/bitnami/nami/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bitnami/node/bin:/opt/bitnami/python/bin:/opt/bitnami/nami/bin"
