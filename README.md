@@ -1,3 +1,5 @@
+# ANA :)
+
 # Sample MEAN application
 
 This application is an example of how to deploy Node.js applications in high availability mode in the Azure cloud.
