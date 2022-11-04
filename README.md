@@ -5,7 +5,7 @@
 - Asignatura: Sistemas y Tecnologias Web
 
 
-# Sample MEAN application
+# Jacob  application
 
 This application is an example of how to deploy Node.js applications in high availability mode in the Azure cloud.
 
