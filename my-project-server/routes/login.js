@@ -4,6 +4,7 @@ import database from "../index.js"
 import User from "../models/registerModel.js"
 import Joi from "@hapi/joi"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const schemaLogin = Joi.object({
   username: Joi.string().required(),
@@ -35,8 +36,15 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, respuesta.password)
     //Si la password no es igual a la del usuario guardada en la BBDD
     if (!validPassword) return res.status(400).json({message: "Password invalida"})
+    const token = jwt.sign({
+      username: req.body.username,
+      password: req.body.password
+    }, process.env.TOKEN_SECRET, {expiresIn: '2h', allowInsecureKeySizes: true})
 
-    res.status(200).json(respuesta)
+    res.status(200).header('auth-token', token).json({
+        error: null,
+        data: {token}
+    })
   } catch(error) {
     res.status(400).json({message: error.message})
   }

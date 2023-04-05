@@ -8,6 +8,8 @@ import registerRouter from "./routes/register.js"
 import router from './routes/routes.js'
 import mongoose from 'mongoose'
 
+import jwt from 'jsonwebtoken'
+
 config()
 // Conexion con la base de datos
 
@@ -38,6 +40,24 @@ const createLog = (req, res, next) => {
 };
 
 app.use(createLog)
+
+const verifyToken = (req, res, next) => {
+  const url = decodeURI(req.url) 
+  // if ( url == '/api/login' || url == '/api/register' ) {
+  //   return next()
+  // }
+  const token = req.header('auth-token')
+  if (!token) return res.status(401).json({ error: 'Acceso denegado' })
+  try {
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET)
+    req.user = verified
+    next() // continuamos
+  } catch (error) {
+    res.status(400).json({error: 'token no es válido'})
+  }
+}
+
+app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
