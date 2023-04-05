@@ -6,6 +6,10 @@ const dataSchema = new mongoose.Schema({
     trim: true,
     type: String
   },
+  name: {
+    trim: true,
+    type: String
+  },
   email: {
     unique: true,
     trim: true,
@@ -14,7 +18,13 @@ const dataSchema = new mongoose.Schema({
   password: {
     trim: true,
     type: String,
+  },
+  follows: {
+    type: Number,
+  },
+  followers: {
+    type: Number,
   }
 })
 
-export default mongoose.model('Register', dataSchema);
+export default mongoose.model('Users', dataSchema);
