@@ -32,7 +32,7 @@ app.use(express.json())
 app.use(cors())
 
 const createLog = (req, res, next) => {
-  console.log(req.method, decodeURI(req.url), res.statusCode, req.body);
+  console.log(req.method, decodeURI(req.url), req.body);
   next();
 };
 
