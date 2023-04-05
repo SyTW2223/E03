@@ -23,7 +23,12 @@ router.post('/register', async (req, res) => {
     email: req.body.email,
     password: req.body.password
   })
-  res.json(data)
+  try {
+    const savedUser = await data.save()
+    res.status(200).json(savedUser)
+  } catch(error) {
+    res.status(400).json({message: error.message})
+  }
 })
 
 export default router
