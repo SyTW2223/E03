@@ -43,9 +43,9 @@ app.use(createLog)
 
 const verifyToken = (req, res, next) => {
   const url = decodeURI(req.url) 
-  // if ( url == '/api/login' || url == '/api/register' ) {
-  //   return next()
-  // }
+  if ( url == '/api/login' || url == '/api/register' ) {
+    return next()
+  }
   const token = req.header('auth-token')
   if (!token) return res.status(401).json({ error: 'Acceso denegado' })
   try {
