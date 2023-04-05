@@ -28,12 +28,17 @@ router.post('/register', async (req, res) => {
   const isUsernameExist = await User.findOne({username: req.body.username})
   if (isUsernameExist) return res.status(400).json({error: 'Nombre de usuario ya registrado'})
   
+  //Salt = bit aleatorios
+  const salt = await bcrypt.genSalt(10);
+  //Hasheamos la password del usuairo
+  const password = await bcrypt.hash(req.body.password, salt);
+
   //Creamos el nuevo usuario
   const data = new User({
     username: req.body.username,
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password,
+    password: password,
     follows: 0,
     followers: 0
   })
