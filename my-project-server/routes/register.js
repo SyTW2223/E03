@@ -14,17 +14,21 @@ const schemaRegister = Joi.object({
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
+
+  //Validacion de los datos enviados
   const {error} = schemaRegister.validate(req.body)
   if (error) return res.status(400).json({
     error: error.details[0].message
   })
 
+  //Casos en los que tengamos EMAIL o USERNAME ya en la BBDD
   const isEmailExist = await User.findOne({ email: req.body.email })
   if (isEmailExist) return res.status(400).json({error: 'Email ya registrado'})
   
   const isUsernameExist = await User.findOne({username: req.body.username})
   if (isUsernameExist) return res.status(400).json({error: 'Nombre de usuario ya registrado'})
   
+  //Creamos el nuevo usuario
   const data = new User({
     username: req.body.username,
     name: req.body.name,
@@ -34,6 +38,7 @@ router.post('/register', async (req, res) => {
     followers: 0
   })
 
+  //Tratamos de guardar el usuario en la BBDD
   try {
     const savedUser = await data.save()
     res.status(200).json(savedUser)
