@@ -3,6 +3,7 @@ import { config } from 'dotenv'
 import express from 'express'
 
 import loginRouter from "./routes/login.js"
+import registerRouter from "./routes/register.js"
 
 import router from './routes/routes.js'
 import mongoose from 'mongoose'
@@ -41,7 +42,7 @@ app.use(createLog)
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
 
-app.use('/api', loginRouter, router)
+app.use('/api', loginRouter, registerRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)
