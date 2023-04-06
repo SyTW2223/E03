@@ -46,6 +46,7 @@ router.post('/login', async (req, res) => {
     res.status(200).header('auth-token', token).json({
         error: null,
         data: {token}
+
     })
   } catch(error) {
     res.status(400).json({message: error.message})
