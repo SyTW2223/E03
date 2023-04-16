@@ -7,7 +7,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const schemaLogin = Joi.object({
-  username: Joi.string().required(),
+  email: Joi.string().required(),
   password: Joi.string().required()
 })
 
@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
   // En caso de que la BBDD no este ON, salta el catch y lanzamos el error (10s)
   try {
 
-    const respuesta = await User.findOne({username: req.body.username}).exec()
+    const respuesta = await User.findOne({email: req.body.email}).exec()
     // Si no se encuentra el usuario por el username
     if (!respuesta) return res.status(400).json({message: "Usuario no encontrado"})
 
@@ -39,14 +39,13 @@ router.post('/login', async (req, res) => {
     
     //Creamos el token con 2h de validez
     const token = jwt.sign({
-      username: req.body.username,
+      email: req.body.email,
       password: req.body.password
     }, process.env.TOKEN_SECRET, {expiresIn: '2h', allowInsecureKeySizes: true})
 
     res.status(200).header('auth-token', token).json({
-        error: null,
-        data: {token}
-
+      error: null,
+      data: {token}
     })
   } catch(error) {
     res.status(400).json({message: error.message})

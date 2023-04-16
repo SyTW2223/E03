@@ -1,5 +1,6 @@
 import CervezaView from '@/views/CervezaView.vue'
 import HomeView from '@/views/HomeView.vue'
+import Login from '@/views/Login.vue'
 // import Home from '@/views/Home.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -28,6 +29,10 @@ const routes = [
   {
     path: '/cerveza',
     component: CervezaView
+  },
+  {
+    path: '/login',
+    component: Login
   }
 ]
 
