@@ -1,6 +1,7 @@
 import CervezaView from '@/views/CervezaView.vue'
 import HomeView from '@/views/HomeView.vue'
 import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
 // import Home from '@/views/Home.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -33,6 +34,10 @@ const routes = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/register',
+    component: Register
   }
 ]
 
