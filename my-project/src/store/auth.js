@@ -50,6 +50,7 @@ export default {
         commit('setMessage', data)
         // imprimimos la respuesta en la consola
         // console.log(data.message)
+        // 
         commit('setIsAuth', true)
       } catch (error) {
         // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola

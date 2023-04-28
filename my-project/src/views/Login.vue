@@ -35,7 +35,8 @@
             </div>
           </div>
           <button type="button" @click="doLogin">Login</button>
-          <!-- <p style="text-align: right;">Este es un texto.</p> -->
+          <br>
+          <p style="text-align: right;">Este es un texto.</p>
         </form>
       </div>
     </div>
