@@ -3,7 +3,8 @@
     <div id="login">
       <div id="description">
         <h1>Login</h1>
-        <p>By logging in you agree to the ridiculously long terms that you didn't bother to read.</p>
+        <!-- <a href= 'https://www.google.es/'><p><small>¿Has olvidado la contraseña?</small></p></a> -->
+        <!-- <a href= 'https://www.google.es/'>Cree una cuenta</a> -->
       </div>
       <div id="form">
         <form @submit.prevent="doLogin">
@@ -35,8 +36,6 @@
             </div>
           </div>
           <button type="button" @click="doLogin">Login</button>
-          <br>
-          <p style="text-align: right;">Este es un texto.</p>
         </form>
       </div>
     </div>
@@ -44,8 +43,6 @@
 </template>
 
 <script>
-// import store from '../store/auth.js'
-
 export default {
   name: 'Login',
   data () {

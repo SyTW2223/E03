@@ -59,14 +59,14 @@ export default {
       name: "",
       username: "",
       email: "",
-      isAuth: '',
+      isAuth: "",
       password: "",
-      message: ''
+      message: ""
     }
   },
   methods: {
     async doRegister() {
-      await this.$store.dispatch('register/doRegister', {
+      await this.$store.dispatch('auth/doRegister', {
         email: this.email,
         password: this.password,
         name: this.name,
@@ -74,8 +74,8 @@ export default {
       })
       // Actualiza el estado de autenticación y el mensaje de registro con los
       // valores del store
-      this.isAuth = this.$store.state.register.isAuth
-      this.message = this.$store.state.register.message
+      this.isAuth = this.$store.state.auth.isAuth
+      this.message = this.$store.state.auth.message
     }
   }
 }
