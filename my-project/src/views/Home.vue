@@ -1,26 +1,93 @@
 <template>
-  <div class="twitter-template">
-    <navbar>
-      <button class="sidebar-toggle" @click="toggleSidebar" v-if="isMobile">
-        <i class="fas fa-bars"></i>
-      </button>
-    </navbar>
-    <div class="content">
-      <div class="sidebar" :class="{ 'sidebar-active': sidebarActive }">
-        <sidebar></sidebar>
-      </div>
-      <div class="main-content">
-        <div class="feed">
-          <div class="tweets">
-            <tweet v-for="tweet in tweets" :key="tweet.id" :tweet="tweet"></tweet>
-          </div>
+<div>
+  <nav class="navbar bg-body-tertiary bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        Bootstrap
+      </a>
+      <form class="d-flex" role="botton">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-outline-success" type="button">Login</button>
+          <button class="btn btn-success" type="button">Registro</button>
         </div>
-        
-        <div class="recommendations" :class="{ 'recommendations-sidebar-active': sidebarActive }">
-          <recommended-users></recommended-users>
-        </div>
-      </div>
+      </form>
     </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                    </li>
+                    <li>
+                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col py-3">
+            
+        </div>
+    </div>
+  </div>
+  
+
   </div>
 </template>
 
@@ -39,10 +106,7 @@ export default {
   },
   data() {
     return {
-      tweets: [
-        // Aquí van los datos de los tweets
-        
-      ],
+      tweets: [],
       sidebarActive: false,
     };
   },
@@ -60,81 +124,5 @@ export default {
 </script>
 
 <style>
-.twitter-template {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
 
-.sidebar-toggle {
-  background: none;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 1.5rem;
-  margin-left: auto;
-  padding: 10px;
-}
-
-.content {
-  flex-grow: 1;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.sidebar {
-  flex-basis: 250px;
-  background-color: #f5f8fa;
-  transition: transform 0.3s ease;
-}
-
-.sidebar.sidebar-active {
-  transform: translateX(0);
-}
-
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.feed {
-  flex-basis: calc(100% - 300px);
-  background-color: #ffffff;
-  padding: 20px;
-}
-
-.recommendations {
-  flex-basis: 300px;
-  background-color: #f5f8fa;
-}
-
-.tweets {
-  padding: 20px;
-}
-
-/* Estilos para pantallas pequeñas */
-@media (max-width: 768px) {
-  .sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    width: 250px;
-    height: 100vh;
-    transform: translateX(-100%);
-  }
-
-  .sidebar.sidebar-active {
-    transform: translateX(0);
-  }
-
-  .feed {
-    flex-basis: 100%;
-  }
-
-  .recommendations {
-    flex-basis: 100%;
-  }
-}
 </style>
