@@ -1,40 +1,140 @@
-<!-- <template>
-  <div class="login-page">
-    <img src="logo.png" alt="Logo de la página" />
-    <button @click="login">Iniciar sesión</button>
+<template>
+  <div class="twitter-template">
+    <navbar>
+      <button class="sidebar-toggle" @click="toggleSidebar" v-if="isMobile">
+        <i class="fas fa-bars"></i>
+      </button>
+    </navbar>
+    <div class="content">
+      <div class="sidebar" :class="{ 'sidebar-active': sidebarActive }">
+        <sidebar></sidebar>
+      </div>
+      <div class="main-content">
+        <div class="feed">
+          <div class="tweets">
+            <tweet v-for="tweet in tweets" :key="tweet.id" :tweet="tweet"></tweet>
+          </div>
+        </div>
+        
+        <div class="recommendations" :class="{ 'recommendations-sidebar-active': sidebarActive }">
+          <recommended-users></recommended-users>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Navbar from "../components/Navbar.vue";
+import Sidebar from "../components/Sidebar.vue";
+import Tweet from "../components/Tweet.vue";
+import RecommendedUsers from "../components/RecommendedUsers.vue";
+
 export default {
-  name: 'Home',
+  components: {
+    Navbar,
+    Sidebar,
+    Tweet,
+    RecommendedUsers,
+  },
+  data() {
+    return {
+      tweets: [
+        // Aquí van los datos de los tweets
+        
+      ],
+      sidebarActive: false,
+    };
+  },
+  computed: {
+    isMobile() {
+      return window.innerWidth <= 768;
+    },
+  },
   methods: {
-    login() {
-      // Aquí puedes agregar la lógica para iniciar sesión
-    }
-  }
-}
+    toggleSidebar() {
+      this.sidebarActive = !this.sidebarActive;
+    },
+  },
+};
 </script>
 
 <style>
-.login-page {
+.twitter-template {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
-.login-page img {
-  max-width: 50%;
-  margin-bottom: 2rem;
-}
-.login-page button {
-  padding: 1rem;
-  font-size: 1.2rem;
-  border-radius: 0.5rem;
+
+.sidebar-toggle {
+  background: none;
   border: none;
-  background-color: #0077FF;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: auto;
+  padding: 10px;
 }
-</style> -->
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  flex-basis: 250px;
+  background-color: #f5f8fa;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.sidebar-active {
+  transform: translateX(0);
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feed {
+  flex-basis: calc(100% - 300px);
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.recommendations {
+  flex-basis: 300px;
+  background-color: #f5f8fa;
+}
+
+.tweets {
+  padding: 20px;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 250px;
+    height: 100vh;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.sidebar-active {
+    transform: translateX(0);
+  }
+
+  .feed {
+    flex-basis: 100%;
+  }
+
+  .recommendations {
+    flex-basis: 100%;
+  }
+}
+</style>
