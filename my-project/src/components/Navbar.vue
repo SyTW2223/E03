@@ -1,15 +1,17 @@
 <template>
-<nav class="navbar">
-    <div class="navbar-logo">Logo</div>
-    <div class="navbar-links">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" class="btn btn-outline-dark">Login</button>
-        <button type="button" class="btn btn-dark">Register</button>
-      </div>
+  <nav class="navbar bg-body-tertiary custom-color">
+    <div class="container-fluid">
+      <router-link class="navbar-brand text-white" to="/">
+        <img src="../assets/chameleon (3).png" alt="Logo" style="width: auto; height: 40px;" class="d-inline-block align-text-top">
+        MobTycoon
+      </router-link>
+      <!-- <form class="d-flex" role="botton">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <router-link to="/login" class="btn btn-login " type="button">Login</router-link>
+          <router-link to="/register" class="btn btn-register " type="button">Registro</router-link>
+        </div>
+      </form> -->
     </div>
-    <button class="sidebar-toggle" @click="toggleSidebar" v-if="isMobile">
-      <i class="bi bi-list"></i> <!-- Agrega el icono de menú aquí -->
-    </button>
   </nav>
 </template>
 
@@ -26,35 +28,20 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped>
-.navbar {
-  background-color: #1da1f2;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.navbar-logo {
+.btn-login {
+  background-color: #ff000000;
   color: #ffffff;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: auto;
+  border-color: #50ad48;
 }
-
-.navbar-links a {
+.btn-register {
+  background-color: #50ad48;
   color: #ffffff;
-  margin-right: 10px;
-  text-decoration: none;
 }
-
-.sidebar-toggle {
-  background: none;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 1.5rem;
-  margin-left: 10px;
+.custom-color {
+  background-color: #252529; /* Reemplaza #ff0000 con tu color personalizado en formato hexadecimal */
 }
 </style>

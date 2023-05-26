@@ -1,92 +1,72 @@
 <template>
 <div>
-  <nav class="navbar bg-body-tertiary bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        Bootstrap
-      </a>
-      <form class="d-flex" role="botton">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button class="btn btn-outline-success" type="button">Login</button>
-          <button class="btn btn-success" type="button">Registro</button>
-        </div>
-      </form>
-    </div>
-  </nav>
+  <Navbar/>
   <div class="container-fluid">
     <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 custom-color-navbar">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span class="fs-5 d-none d-sm-inline">Menu</span>
-                </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
-                        </a>
+                        <!-- <router-link to="/" class="nav-link align-middle px-0">
+                            <img src="../assets/chameleon (3).png" alt="Logo" style="width: auto; height: 40px;" class="d-inline-block align-text-top">
+                             <span class="ms-1 d-none d-sm-inline text-white fs-5">
+                               <b>MobTycoon</b>
+                            </span>
+                        </router-link> -->
                     </li>
-                    <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
-                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
-                            </li>
-                        </ul>
+                    <li class="nav-item">
+                        <router-link to="/login" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-box-arrow-in-right custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Iniciar sesión</span>
+                        </router-link>
                     </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                    <li class="nav-item">
+                        <router-link to="/register" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-person-add custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Registrarse</span>
+                        </router-link>
                     </li>
                 </ul>
                 <hr>
             </div>
         </div>
         <div class="col py-3">
-            
+          <div class="container">
+            <div>
+              <div class="row" style="height: 100%;">
+                <div class="col-lg-7 pr-lg-4 custom-column column-margin">
+                  <!-- Columna izquierda (mayor) -->
+                  <div class="d-flex justify-content-center mb-3">
+                    <!-- Buscador -->
+                    <input type="text" class="form-control" placeholder="Buscar">
+                  </div>
+                  <div class="list-group">
+                    <!-- Lista de tweets -->
+                    <!-- <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@usuario1</h5>
+                        <small>Fecha del tweet</small>
+                      </div>
+                      <p class="mb-1">Contenido del tweet...</p>
+                      <small>Enlace o información adicional</small>
+                    </a> -->
+                    <!-- Agrega más tweets aquí -->
+                    
+                    <Tweet></Tweet>
+                    
+                  </div>
+                </div>
+                
+                <div class="col-lg-4 custom-column column-margin">
+                  <!-- Columna derecha -->
+                  <h3>Recomendaciones</h3>
+                    <RecommendedUsers/>
+                    <!-- Recomendaciones de usuarios -->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
-  
 
   </div>
 </template>
@@ -124,5 +104,24 @@ export default {
 </script>
 
 <style>
+.custom-color {
+  color: #5dca53; /* Color personalizado en formato hexadecimal */
+}
+.custom-color-navbar {
+  background-color: #252529; /* Reemplaza #ff0000 con tu color personalizado en formato hexadecimal */
+}
+.custom-border {
+  border-right: 3px solid rgb(76, 170, 76);
+  height: 100%;
+}
+.custom-column {
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
 
+  .column-margin {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
 </style>

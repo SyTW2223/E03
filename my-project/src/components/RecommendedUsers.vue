@@ -3,6 +3,7 @@
     <div v-for="user in users" :key="user.id" class="user">
       <img class="avatar" :src="user.avatar" alt="Avatar">
       <div class="username">{{ user.username }}</div>
+      <button class="btn btn-primary follow-button">Seguir</button>
     </div>
   </div>
 </template>
@@ -31,15 +32,17 @@ export default {
 
 <style scoped>
 .recommended-users {
-  background-color: #f5f8fa;
-  width: 300px;
+  /* background-color: #f5f8fa; */
+  width: 100%;
   padding: 20px;
 }
 
 .user {
+  background-color: #f5f8fa;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .avatar {
@@ -52,4 +55,10 @@ export default {
 .username {
   font-weight: bold;
 }
+.follow-button {
+  margin-left: auto;
+  background-color: #50ad48;
+  border-color: #50ad48;
+}
+
 </style>

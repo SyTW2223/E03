@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Navbar/>
     <div id="register">
       <div id="description">
         <h1>Register</h1>
@@ -50,10 +51,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import Navbar from "../components/Navbar.vue";
 
 export default {
   name: 'Register',
+  components: {
+    Navbar
+  },
   data () {
     return {
       name: "",
@@ -127,7 +131,7 @@ div#app div#register  div#description p {
 }
 
 div#app div#register  div#form {
-  background-color: #34495e;
+  background-color: #252529;
   border-radius: 5px;
   box-shadow: 0px 0px 30px 0px #666;
   color: #ecf0f1;
