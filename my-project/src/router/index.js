@@ -2,6 +2,7 @@ import CervezaView from '@/views/CervezaView.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
+import User from '@/views/User.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -23,8 +24,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/cerveza',
-    component: CervezaView
+    path: '/user',
+    component: User
   },
   {
     path: '/login',
