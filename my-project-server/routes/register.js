@@ -46,9 +46,11 @@ router.post('/register', async (req, res) => {
   //Tratamos de guardar el usuario en la BBDD
   try {
     const savedUser = await data.save()
-    res.status(200).json(savedUser)
+    res.status(200).json({
+      message: 'Usuario creado con exito',
+    })
   } catch(error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({error: error.message})
   }
 })
 
