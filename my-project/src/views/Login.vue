@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="alert alert-success d-flex align-items-center d-flex justify-content-center" v-if="message && isAuth" role="alert">
-              <!-- <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
               <div>
                 <!-- "Aqui el exito" -->
                 {{ this.message }}
