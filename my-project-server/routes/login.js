@@ -31,11 +31,11 @@ router.post('/login', async (req, res) => {
 
     const respuesta = await User.findOne({email: req.body.email}).exec()
     // Si no se encuentra el usuario por el username
-    if (!respuesta) return res.status(400).json({message: "Usuario no encontrado"})
+    if (!respuesta) return res.status(400).json({error: "Usuario no encontrado"})
 
     const validPassword = await bcrypt.compare(req.body.password, respuesta.password)
     //Si la password no es igual a la del usuario guardada en la BBDD
-    if (!validPassword) return res.status(400).json({message: "Password invalida"})
+    if (!validPassword) return res.status(400).json({error: "Password invalida"})
     
     //Creamos el token con 2h de validez
     const token = jwt.sign({
@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
       data: {token}
     })
   } catch(error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({error: error.message})
   }
 })
 
