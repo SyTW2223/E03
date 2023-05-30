@@ -1,5 +1,16 @@
 import mongoose from 'mongoose'
 
+const tweetSchema = new mongoose.Schema({
+  message: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const dataSchema = new mongoose.Schema({
   username: {
     unique: true,
@@ -24,7 +35,8 @@ const dataSchema = new mongoose.Schema({
   },
   followers: {
     type: Number,
-  }
+  },
+  tweets: [tweetSchema],
 })
 
 export default mongoose.model('Users', dataSchema);
