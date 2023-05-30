@@ -62,7 +62,7 @@ export default {
       message: ''
     }
   },
-  // cada vez que se recarge la pagina se comprueba si el usario esta logueado
+  // cada vez que se recarge la pagina se comprueba si el usario esta
   created() {
     if (localStorage.getItem('token')) {
       // Si hay un token en el LocalStorage, redirige al usuario a la página deseada

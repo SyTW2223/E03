@@ -82,6 +82,12 @@ export default {
       sidebarActive: false,
     };
   },
+  created() {
+    if (localStorage.getItem('token')) {
+      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
+      this.$router.push('/homeLogin');
+    }
+  },
   computed: {
     isMobile() {
       return window.innerWidth <= 768;

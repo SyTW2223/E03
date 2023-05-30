@@ -7,14 +7,14 @@
           <!-- Sección de información del perfil -->
           <div class="card mb-3">
             <div class="profile-image-container">
-              <img class="card-img-top rounded-circle" :src="user.avatar" alt="Perfil">
+              <!-- <img class="card-img-top rounded-circle" :src="userInfo.avatar" alt="Perfil"> -->
             </div>
             <div class="card-body">
-              <h5 class="card-title">{{ user.name }}</h5>
-              <p class="card-text">Seguidores: {{ user.followers }}</p>
-              <p class="card-text">Siguiendo: {{ user.following }}</p>
-              <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir'
-              }}</button> -->
+              <!-- <div>{{ logUserInfo }}</div> -->
+              <h5 class="card-title">@{{ this.userInfo.username }}</h5>
+              <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
+              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p>
+              <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -22,9 +22,9 @@
             <div class="card-body">
               <h5 class="card-title">Seguidores</h5>
               <ul class="list-group">
-                <li v-for="follower in user.followersList" :key="follower.id" class="list-group-item">
+                <!-- <li v-for="follower in userInfo.followersList" :key="follower.id" class="list-group-item">
                   {{ follower.name }}
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -44,31 +44,17 @@
                 </form>
               </div>
             </div>
-          <!-- Sección de tweets publicados -->
+            <!-- Sección de tweets publicados -->
             <Tweet/>
-          <!-- <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Tweets</h5>
-              <ul class="list-group">
-                <li v-for="tweet in tweets" :key="tweet.id" class="list-group-item">
-                  <div class="d-flex justify-content-between">
-                    <h6 class="mb-1">@{{ user.username }}</h6>
-                    <small>{{ tweet.date }}</small>
-                  </div>
-                  <p class="mb-1">{{ tweet.content }}</p>
-                  <small>{{ tweet.link }}</small>
-                </li>
-              </ul>
-            </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
-  
+
 <script>
+import { mapState } from 'vuex'; // Importa la función mapState de vuex
 import Tweet from "../components/Tweet.vue";
 import Navbar from "../components/Navbar.vue";
 
@@ -77,33 +63,24 @@ export default {
     Navbar,
     Tweet,
   },
-  data() {
-    return {
-      user: {
-        name: 'John Doe',
-        username: 'johndoe',
-        avatar: 'https://thispersondoesnotexist.xyz/img/4007.jpg',
-        followers: 500,
-        following: 200,
-        followersList: [
-          { id: 1, name: 'Follower 1' },
-          { id: 2, name: 'Follower 2' },
-          { id: 3, name: 'Follower 3' }
-        ]
-      },
-      tweets: [
-        { id: 1, content: 'Contenido del Tweet 1', date: '2023-05-30', link: 'https://example.com/tweet1' },
-        { id: 2, content: 'Contenido del Tweet 2', date: '2023-05-29', link: 'https://example.com/tweet2' },
-        { id: 3, content: 'Contenido del Tweet 3', date: '2023-05-28', link: 'https://example.com/tweet3' }
-      ],
-      newTweetContent: ''
-    };
-  },
   computed: {
+    ...mapState('auth', {
+      userInfo: state => state.user
+    }),
+    // logUserInfo() {
+    //   // console.log(this.userInfo);
+    //   // console.log(this.userInfo.name);
+    //   return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
+    // },
     following() {
       // Simulación del estado de seguir o dejar de seguir al usuario
       return false;
     }
+  },
+  data() {
+    return {
+      newTweetContent: ''
+    };
   },
   methods: {
     followUser() {
@@ -111,18 +88,20 @@ export default {
     },
     createTweet() {
       // Lógica para crear un nuevo tweet
-      const newTweet = {
-        id: this.tweets.length + 1,
-        content: this.newTweetContent,
-        date: new Date().toISOString(),
-        link: ''
-      };
-      this.tweets.unshift(newTweet);
-      this.newTweetContent = '';
+      
+    }
+  },
+  
+  created() {
+    const storedUserInfo = localStorage.getItem('user');
+    // console.log(JSON.parse(storedUserInfo));
+    if (storedUserInfo) {
+      this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
     }
   }
 };
 </script>
+
   
 <style>
 

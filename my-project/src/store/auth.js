@@ -2,6 +2,7 @@
 import axios from 'axios' // para enviar solicitudes HTTP
 import Vuex from 'vuex' // para manejar el estado de la aplicación
 import Vue from 'vue'
+import router from '../router/index'
 
 
 // Usamos Vuex
@@ -16,6 +17,7 @@ export default {
     message: "", // para almacenar los mensajes del servidor
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
+    user: "",
     isAuth: localStorage.getItem('token') ? true : false
   },
   // Definimos las mutaciones que se utilizarán para actualizar el estado
@@ -35,9 +37,19 @@ export default {
     setIsAuth(state, isAuth) {
       state.isAuth = isAuth // actualizamos la contraseña
     },
+    setUser(state, user) {
+      state.user = user; // Actualiza el estado con la información del usuario
+    },
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
-    }
+    },
+    resetState(state) {
+      state.message = "";
+      state.email = "";
+      state.password = "";
+      state.user = "";
+      state.isAuth = false;
+    },
   },
   // Definimos las acciones que se utilizarán para actualizar el estado
   actions: {
@@ -51,14 +63,25 @@ export default {
           password: credentials.password
         })
         // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
+        const userInfo = response.data.user
+        // const token = response.data.data.token
+        // const userData = {
+        //   userInfo,
+        //   // token
+        // }
+        console.log(userInfo)
+        commit('setUser', userInfo)
+
         const data = response.data.message // lo quitaria?
         // actualizamos el mensaje del servidor
         commit('setMessage', data)
         // imprimimos la respuesta en la consola
-        console.log(data.message)
+        console.log(data)
         commit('setIsAuth', true)
 
         localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+
       } catch (error) {
         // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
         // actualizamos el mensaje del servidor
@@ -99,6 +122,13 @@ export default {
 
         commit('setIsAuth', false)
       }
-    }
+    },
+    doLogout({ commit }) {
+      // Restablecer el estado al valor inicial y borrar el token del LocalStorage
+      commit('resetState');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      router.push('/');
+    },
   }
 }
