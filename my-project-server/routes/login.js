@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 
     const validPassword = await bcrypt.compare(req.body.password, respuesta.password)
     //Si la password no es igual a la del usuario guardada en la BBDD
-    if (!validPassword) return res.status(400).json({error: "Password invalida"})
+    if (!validPassword) return res.status(400).json({error: "Contraseña invalida"})
     
     //Creamos el token con 2h de validez
     const token = jwt.sign({
@@ -46,7 +46,14 @@ router.post('/login', async (req, res) => {
     res.status(200).header('auth-token', token).json({
       error: null,
       message: 'Usuario logueado con exito',
-      data: { token }
+      data: { token },
+      user: {
+        name: respuesta.name,
+        email: respuesta.email,
+        username: respuesta.username,
+        follows: respuesta.follows,
+        followers: respuesta.followers
+      }
     })
   } catch(error) {
     res.status(400).json({error: error.message})
