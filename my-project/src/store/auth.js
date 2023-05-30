@@ -16,7 +16,7 @@ export default {
     message: "", // para almacenar los mensajes del servidor
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
-    isAuth: false
+    isAuth: localStorage.getItem('token') ? true : false
   },
   // Definimos las mutaciones que se utilizarán para actualizar el estado
   mutations: {
@@ -56,8 +56,9 @@ export default {
         commit('setMessage', data)
         // imprimimos la respuesta en la consola
         console.log(data.message)
-        // 
         commit('setIsAuth', true)
+
+        localStorage.setItem('token', response.data.data.token);
       } catch (error) {
         // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
         // actualizamos el mensaje del servidor

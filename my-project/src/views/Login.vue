@@ -62,6 +62,13 @@ export default {
       message: ''
     }
   },
+  // cada vez que se recarge la pagina se comprueba si el usario esta logueado
+  created() {
+    if (localStorage.getItem('token')) {
+      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
+      this.$router.push('/homeLogin');
+    }
+  },
   methods: {
     async doLogin () {
       // Llamamos a la acción 'doLogin' en la tienda, pasando el correo electrónico y la contraseña
@@ -74,6 +81,10 @@ export default {
       this.isAuth = this.$store.state.auth.isAuth
       this.message = this.$store.state.auth.message
       // console.log(this.message)
+      if (localStorage.getItem('token')) {
+      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
+      this.$router.push('/homeLogin');
+    }
     }
   }
 }

@@ -96,6 +96,14 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .custom-color {
   color: #5dca53; /* Color personalizado en formato hexadecimal */
 }
