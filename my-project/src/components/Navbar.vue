@@ -31,7 +31,10 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
+.navbar {
+  margin-top: 0;
+}
 .btn-login {
   background-color: #ff000000;
   color: #ffffff;

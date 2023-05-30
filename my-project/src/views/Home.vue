@@ -7,14 +7,6 @@
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <!-- <router-link to="/" class="nav-link align-middle px-0">
-                            <img src="../assets/chameleon (3).png" alt="Logo" style="width: auto; height: 40px;" class="d-inline-block align-text-top">
-                             <span class="ms-1 d-none d-sm-inline text-white fs-5">
-                               <b>MobTycoon</b>
-                            </span>
-                        </router-link> -->
-                    </li>
-                    <li class="nav-item">
                         <router-link to="/login" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-box-arrow-in-right custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Iniciar sesión</span>
                         </router-link>
@@ -104,6 +96,14 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .custom-color {
   color: #5dca53; /* Color personalizado en formato hexadecimal */
 }
