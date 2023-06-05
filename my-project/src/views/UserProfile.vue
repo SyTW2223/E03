@@ -86,9 +86,9 @@ export default {
     followUser() {
       // Lógica para seguir o dejar de seguir al usuario
     },
-    createTweet() {
+    async createTweet() {
       // Lógica para crear un nuevo tweet
-      
+      await this.$store.dispatch('auth/sendTweet', this.newTweetContent)
     }
   },
   

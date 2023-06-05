@@ -130,5 +130,33 @@ export default {
       localStorage.removeItem('user');
       router.push('/');
     },
+    async sendTweet ({commit, state}, message) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.post('http://10.6.128.209:8080/api/tweet', {
+            username: state.user.username,
+            message: message
+          })
+          console.log(response)
+        } catch(error) {
+          console.log(error)
+        }
+      }
+    },
+    async doSearchUser({commit, state}, usernameSearch) {
+      console.log(usernameSearch)
+      if (state.isAuth) {
+        try {
+          const response = await axios.post('http://10.6.128.209:8080/api/searchUser', {
+            username: usernameSearch
+          })
+          response.data.username.forEach(element => {
+            console.log(element)
+          });
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
   }
 }

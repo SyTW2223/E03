@@ -28,7 +28,7 @@
                     <!-- Columna izquierda (mayor) -->
                     <div class="d-flex justify-content-center mb-3">
                       <!-- Buscador -->
-                      <input type="text" class="form-control" placeholder="Buscar">
+                      <input v-on:keyup.enter="searchUser" v-model="findUsername" type="text" class="form-control" placeholder="Buscar">
                     </div>
                     <div class="list-group">
                       <Tweet></Tweet>
@@ -66,6 +66,7 @@ export default {
   data() {
     return {
       tweets: [],
+      findUsername: '',
       sidebarActive: false,
     };
   },
@@ -82,6 +83,9 @@ export default {
       this.$store.dispatch('auth/doLogout');
       // this.$router.push('/');
     },
+    searchUser() {
+      this.$store.dispatch('auth/doSearchUser', this.findUsername)
+    }
   },
 };
 </script>
