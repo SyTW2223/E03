@@ -1,8 +1,8 @@
 import express from "express"
 
-import User from "../models/registerModel.js"
 import Joi from "@hapi/joi"
 import bcrypt from "bcrypt"
+import User from "../models/registerModel.js"
 
 const schemaRegister = Joi.object({
   username: Joi.string().required(),
@@ -16,18 +16,18 @@ const router = express.Router()
 router.post('/register', async (req, res) => {
 
   //Validacion de los datos enviados
-  const {error} = schemaRegister.validate(req.body)
+  const { error } = schemaRegister.validate(req.body)
   if (error) return res.status(400).json({
     error: error.details[0].message
   })
 
   //Casos en los que tengamos EMAIL o USERNAME ya en la BBDD
   const isEmailExist = await User.findOne({ email: req.body.email })
-  if (isEmailExist) return res.status(400).json({error: 'Email ya registrado'})
-  
-  const isUsernameExist = await User.findOne({username: req.body.username})
-  if (isUsernameExist) return res.status(400).json({error: 'Nombre de usuario ya registrado'})
-  
+  if (isEmailExist) return res.status(400).json({ error: 'Email ya registrado' })
+
+  const isUsernameExist = await User.findOne({ username: req.body.username })
+  if (isUsernameExist) return res.status(400).json({ error: 'Nombre de usuario ya registrado' })
+
   //Salt = bit aleatorios
   const salt = await bcrypt.genSalt(10);
   //Hasheamos la password del usuairo

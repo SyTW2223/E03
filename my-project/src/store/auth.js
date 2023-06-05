@@ -18,6 +18,7 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
+    username: "",
     isAuth: localStorage.getItem('token') ? true : false
   },
   // Definimos las mutaciones que se utilizarán para actualizar el estado
@@ -35,7 +36,7 @@ export default {
       state.username = username // actualizamos la contraseña
     },
     setIsAuth(state, isAuth) {
-      state.isAuth = isAuth // actualizamos la contraseña
+      state.isAuth = isAuth // actualizamos el estado
     },
     setUser(state, user) {
       state.user = user; // Actualiza el estado con la información del usuario
@@ -107,6 +108,38 @@ export default {
         })
         // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
         const data = response.data.message // lo quitaria?
+        // actualizamos el mensaje del servidor
+        commit('setMessage', data)
+        // imprimimos la respuesta en la consola
+        console.log(data.message)
+
+        commit('setIsAuth', true)
+        localStorage.setItem('token', response.data.data.token);
+      } catch (error) {
+        // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
+        // actualizamos el mensaje del servidor
+        commit('setMessage', JSON.parse(error.response.request.responseText).error)
+        // imprimimos el mensaje de error en la consola
+        console.log(JSON.parse(error.response.request.responseText).error)
+
+        commit('setIsAuth', false)
+      }
+    },
+    async doRegister({ commit }, credentials) {
+      try {
+        // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
+        const response = await axios.post('http://localhost:3000/api/register', {
+          // pasamos el correo electrónico almacenado en el estado
+          email: credentials.email,
+          // pasamos la contraseña almacenada en el estado
+          password: credentials.password,
+
+          username: credentials.username,
+
+          name: credentials.name
+        })
+        // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
+        const data = response.data.message 
         // actualizamos el mensaje del servidor
         commit('setMessage', data)
         // imprimimos la respuesta en la consola

@@ -66,9 +66,16 @@ export default {
       name: "",
       username: "",
       email: "",
-      isAuth: '',
+      isAuth: "",
       password: "",
-      message: ''
+      message: ""
+    }
+  },
+  // cada vez que se recarge la pagina se comprueba si el usario esta logueado
+  created() {
+    if (localStorage.getItem('token')) {
+      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
+      this.$router.push('/homeLogin');
     }
   },
   // cada vez que se recarge la pagina se comprueba si el usario esta logueado

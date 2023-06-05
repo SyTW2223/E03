@@ -1,19 +1,15 @@
 <template>
-    <div id="app">
-      <Navbar/>
-      <div id="login">
-        
-        <div id="description">
-          <h1>Login</h1>
-          <a href= 'https://www.google.es/'><p><small>¿Has olvidado la contraseña?</small></p></a>
-          <div>
-            <a href= 'https://www.google.es/'>Cree una cuenta</a>
-          </div>
-        </div>
-        <div id="form">
-          <form @submit.prevent="doLogin">
-            <label for="email">Email</label>
-            <input type="text" id="email" v-model="email" placeholder="example@outlook.com" autocomplete="off">
+  <div id="app">
+    <div id="login">
+      <div id="description">
+        <h1>Login</h1>
+        <!-- <a href= 'https://www.google.es/'><p><small>¿Has olvidado la contraseña?</small></p></a> -->
+        <!-- <a href= 'https://www.google.es/'>Cree una cuenta</a> -->
+      </div>
+      <div id="form">
+        <form @submit.prevent="doLogin">
+          <label for="email">Email</label>
+          <input type="text" id="email" v-model="email" placeholder="example@outlook.com" autocomplete="off">
 
             <label for="password">Password</label>
             <i class="fas" @click="hidePassword = !hidePassword"></i>
@@ -25,29 +21,29 @@
               </symbol>
             </svg>
 
-            <div class="alert alert-danger d-flex align-items-center d-flex justify-content-center" v-if="message && !isAuth" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-              <div>
-                <!-- "Aqui el error" -->
-                {{ this.message }}
-              </div>
+          <div class="alert alert-danger d-flex align-items-center d-flex justify-content-center" v-if="message && !isAuth" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+              <!-- "Aqui el error" -->
+              {{ this.message }}
             </div>
-            <div class="alert alert-success d-flex align-items-center d-flex justify-content-center" v-if="message && isAuth" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-                <!-- "Aqui el exito" -->
-                {{ this.message }}
-              </div>
+          </div>
+          <div class="alert alert-success d-flex align-items-center d-flex justify-content-center" v-if="message && isAuth" role="alert">
+            <!-- <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
+            <div>
+              <!-- "Aqui el exito" -->
+              {{ this.message }}
             </div>
-            <button type="button" @click="doLogin">Login</button>
-          </form>
-        </div>
+          </div>
+          <button type="button" @click="doLogin">Login</button>
+        </form>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue";
+// import store from '../store/auth.js'
 
 export default {
   name: 'Login',
