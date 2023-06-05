@@ -7,7 +7,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const schemaLogin = Joi.object({
-  username: Joi.string().required(),
+  email: Joi.string().required(),
   password: Joi.string().required()
 })
 
@@ -29,27 +29,34 @@ router.post('/login', async (req, res) => {
   // En caso de que la BBDD no este ON, salta el catch y lanzamos el error (10s)
   try {
 
-    const respuesta = await User.findOne({username: req.body.username}).exec()
+    const respuesta = await User.findOne({email: req.body.email}).exec()
     // Si no se encuentra el usuario por el username
-    if (!respuesta) return res.status(400).json({message: "Usuario no encontrado"})
+    if (!respuesta) return res.status(400).json({error: "Usuario no encontrado"})
 
     const validPassword = await bcrypt.compare(req.body.password, respuesta.password)
     //Si la password no es igual a la del usuario guardada en la BBDD
-    if (!validPassword) return res.status(400).json({message: "Password invalida"})
+    if (!validPassword) return res.status(400).json({error: "Contraseña invalida"})
     
     //Creamos el token con 2h de validez
     const token = jwt.sign({
-      username: req.body.username,
+      email: req.body.email,
       password: req.body.password
     }, process.env.TOKEN_SECRET, {expiresIn: '2h', allowInsecureKeySizes: true})
 
     res.status(200).header('auth-token', token).json({
-        error: null,
-        data: {token}
-
+      error: null,
+      message: 'Usuario logueado con exito',
+      data: { token },
+      user: {
+        name: respuesta.name,
+        email: respuesta.email,
+        username: respuesta.username,
+        follows: respuesta.follows,
+        followers: respuesta.followers
+      }
     })
   } catch(error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({error: error.message})
   }
 })
 
