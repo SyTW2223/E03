@@ -11,6 +11,11 @@
                               <i class="fs-4 bi-person-circle custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Perfil</span>
                           </router-link>
                       </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link align-middle px-0" @click="logout">
+                              <i class="fs-4 bi-box-arrow-right custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Cerrar sesión</span>
+                          </a>
+                      </li>
                   </ul>
                   <hr>
               </div>
@@ -26,19 +31,7 @@
                       <input type="text" class="form-control" placeholder="Buscar">
                     </div>
                     <div class="list-group">
-                      <!-- Lista de tweets -->
-                      <!-- <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">@usuario1</h5>
-                          <small>Fecha del tweet</small>
-                        </div>
-                        <p class="mb-1">Contenido del tweet...</p>
-                        <small>Enlace o información adicional</small>
-                      </a> -->
-                      <!-- Agrega más tweets aquí -->
-                      
                       <Tweet></Tweet>
-                      
                     </div>
                   </div>
                   
@@ -54,70 +47,73 @@
           </div>
       </div>
     </div>
+  </div>
+</template>
   
-    </div>
-  </template>
-  
-  <script>
-  import Navbar from "../components/Navbar.vue";
-  import Sidebar from "../components/Sidebar.vue";
-  import Tweet from "../components/Tweet.vue";
-  import RecommendedUsers from "../components/RecommendedUsers.vue";
-  
-  export default {
-    components: {
-      Navbar,
-      Sidebar,
-      Tweet,
-      RecommendedUsers,
+<script>
+import Navbar from "../components/Navbar.vue";
+import Sidebar from "../components/Sidebar.vue";
+import Tweet from "../components/Tweet.vue";
+import RecommendedUsers from "../components/RecommendedUsers.vue";
+
+export default {
+  components: {
+    Navbar,
+    Sidebar,
+    Tweet,
+    RecommendedUsers,
+  },
+  data() {
+    return {
+      tweets: [],
+      sidebarActive: false,
+    };
+  },
+  computed: {
+    isMobile() {
+      return window.innerWidth <= 768;
     },
-    data() {
-      return {
-        tweets: [],
-        sidebarActive: false,
-      };
+  },
+  methods: {
+    toggleSidebar() {
+      this.sidebarActive = !this.sidebarActive;
     },
-    computed: {
-      isMobile() {
-        return window.innerWidth <= 768;
-      },
+    logout() {
+      this.$store.dispatch('auth/doLogout');
+      // this.$router.push('/');
     },
-    methods: {
-      toggleSidebar() {
-        this.sidebarActive = !this.sidebarActive;
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   
-  <style>
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+<style>
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.custom-color {
+  color: #5dca53; /* Color personalizado en formato hexadecimal */
+}
+.custom-color-navbar {
+  background-color: #252529; /* Reemplaza #ff0000 con tu color personalizado en formato hexadecimal */
+}
+.custom-border {
+  border-right: 3px solid rgb(76, 170, 76);
+  height: 100%;
+}
+.custom-column {
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    padding: 20px;
   }
-  
-  .custom-color {
-    color: #5dca53; /* Color personalizado en formato hexadecimal */
+
+  .column-margin {
+    margin-right: 10px;
+    margin-left: 10px;
   }
-  .custom-color-navbar {
-    background-color: #252529; /* Reemplaza #ff0000 con tu color personalizado en formato hexadecimal */
-  }
-  .custom-border {
-    border-right: 3px solid rgb(76, 170, 76);
-    height: 100%;
-  }
-  .custom-column {
-      border-radius: 10px;
-      background-color: #f1f1f1;
-      padding: 20px;
-    }
-  
-    .column-margin {
-      margin-right: 10px;
-      margin-left: 10px;
-    }
-  </style>
+</style>
   
