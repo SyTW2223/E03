@@ -7,7 +7,7 @@
               <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                   <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                       <li class="nav-item">
-                          <router-link to="/userProfile" class="nav-link align-middle px-0">
+                          <router-link :to="`/userProfile/${this.$store.state.auth.user.username}`" class="nav-link align-middle px-0">
                               <i class="fs-4 bi-person-circle custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Perfil</span>
                           </router-link>
                       </li>
@@ -30,9 +30,23 @@
                       <!-- Buscador -->
                       <input v-on:keyup.enter="searchUser" v-model="findUsername" type="text" class="form-control" placeholder="Buscar">
                     </div>
+
                     <div class="list-group">
-                      <Tweet></Tweet>
+                      <!-- Mostrar lista de usuarios -->
+                      <!-- <div v-if="this.usernames.length == 0" class="list-group-item">
+                        No se encontraron usuarios.
+                      </div> -->
+                      <!-- <div>
+                        {{ this.username }}
+                      </div> -->
+                      <div v-for="user in usernames" :key="user" class="list-group-item">
+                        <!-- CAMBIAR, CREARIA OTRO COMPONENTE PARA EL PERFIL DE OTROS USUARIOS -->
+                        <router-link :to="`/userProfile/${user}`" class="custom-link">{{ user }}</router-link>
+                      </div>
                     </div>
+                    <!-- <div class="list-group">
+                      <Tweet></Tweet>
+                    </div> -->
                   </div>
                   
                   <div class="col-lg-4 custom-column column-margin">
@@ -68,12 +82,24 @@ export default {
       tweets: [],
       findUsername: '',
       sidebarActive: false,
+      usernames: [],
+      prub: [1, 2, 3]
     };
+  },
+  created() {
+    if (localStorage.getItem('token')) {
+
+      const storedUserInfo = localStorage.getItem('user');
+
+      if (storedUserInfo) {
+        this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+      }
+    }
   },
   computed: {
     isMobile() {
       return window.innerWidth <= 768;
-    },
+    }
   },
   methods: {
     toggleSidebar() {
@@ -83,8 +109,10 @@ export default {
       this.$store.dispatch('auth/doLogout');
       // this.$router.push('/');
     },
-    searchUser() {
-      this.$store.dispatch('auth/doSearchUser', this.findUsername)
+    async searchUser() {
+      await this.$store.dispatch('auth/doSearchUser', this.findUsername)
+      this.usernames = this.$store.state.auth.usernames;
+      console.log(this.usernames)
     }
   },
 };

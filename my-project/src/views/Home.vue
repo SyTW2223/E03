@@ -85,7 +85,12 @@ export default {
   created() {
     if (localStorage.getItem('token')) {
       // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
-      this.$router.push('/homeLogin');
+      const storedUserInfo = localStorage.getItem('user');
+
+      if (storedUserInfo) {
+        this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+      }
+      this.$router.push(`/homeLogin/${this.$store.state.auth.user.username}`);
     }
   },
   computed: {

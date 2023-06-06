@@ -18,7 +18,9 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
-    username: "",
+    // username: "",
+    usernames: [],
+    tweets: "",
     isAuth: localStorage.getItem('token') ? true : false
   },
   // Definimos las mutaciones que se utilizarán para actualizar el estado
@@ -32,8 +34,11 @@ export default {
     setName(state, name) {
       state.name = name // actualizamos la contraseña
     },
-    setUsername(state, username) {
-      state.username = username // actualizamos la contraseña
+    // setUsername(state, username) {
+    //   state.username = username // actualizamos la contraseña
+    // },
+    setUsernames(state, usernames) {
+      state.usernames = usernames // actualizamos la contraseña
     },
     setIsAuth(state, isAuth) {
       state.isAuth = isAuth // actualizamos el estado
@@ -43,6 +48,9 @@ export default {
     },
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
+    },
+    setTweets(state, tweets) {
+      state.tweets = tweets
     },
     resetState(state) {
       state.message = "";
@@ -65,19 +73,18 @@ export default {
         })
         // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
         const userInfo = response.data.user
-        // const token = response.data.data.token
-        // const userData = {
-        //   userInfo,
-        //   // token
-        // }
-        console.log(userInfo)
-        commit('setUser', userInfo)
 
         const data = response.data.message // lo quitaria?
+        
+        // commit('setUsername', username)
+        // console.log(username)
+
+        commit('setUser', userInfo)
+
         // actualizamos el mensaje del servidor
         commit('setMessage', data)
         // imprimimos la respuesta en la consola
-        console.log(data)
+        // console.log(data)
         commit('setIsAuth', true)
 
         localStorage.setItem('token', response.data.data.token);
@@ -125,38 +132,38 @@ export default {
         commit('setIsAuth', false)
       }
     },
-    async doRegister({ commit }, credentials) {
-      try {
-        // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-        const response = await axios.post('http://localhost:3000/api/register', {
-          // pasamos el correo electrónico almacenado en el estado
-          email: credentials.email,
-          // pasamos la contraseña almacenada en el estado
-          password: credentials.password,
+    // async doRegister({ commit }, credentials) {
+    //   try {
+    //     // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
+    //     const response = await axios.post('http://localhost:3000/api/register', {
+    //       // pasamos el correo electrónico almacenado en el estado
+    //       email: credentials.email,
+    //       // pasamos la contraseña almacenada en el estado
+    //       password: credentials.password,
 
-          username: credentials.username,
+    //       username: credentials.username,
 
-          name: credentials.name
-        })
-        // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
-        const data = response.data.message 
-        // actualizamos el mensaje del servidor
-        commit('setMessage', data)
-        // imprimimos la respuesta en la consola
-        console.log(data.message)
+    //       name: credentials.name
+    //     })
+    //     // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
+    //     const data = response.data.message 
+    //     // actualizamos el mensaje del servidor
+    //     commit('setMessage', data)
+    //     // imprimimos la respuesta en la consola
+    //     console.log(data.message)
 
-        commit('setIsAuth', true)
-      } catch (error) {
-        // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
-        // actualizamos el mensaje del servidor
-        commit('setMessage', JSON.parse(error.response.request.responseText).error)
-        // imprimimos el mensaje de error en la consola
-        console.log(JSON.parse(error.response.request.responseText).error)
+    //     commit('setIsAuth', true)
+    //   } catch (error) {
+    //     // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
+    //     // actualizamos el mensaje del servidor
+    //     commit('setMessage', JSON.parse(error.response.request.responseText).error)
+    //     // imprimimos el mensaje de error en la consola
+    //     console.log(JSON.parse(error.response.request.responseText).error)
 
-        commit('setIsAuth', false)
-      }
-    },
-    doLogout({ commit }) {
+    //     commit('setIsAuth', false)
+    //   }
+    // },
+    async doLogout({ commit }) {
       // Restablecer el estado al valor inicial y borrar el token del LocalStorage
       commit('resetState');
       localStorage.removeItem('token');
@@ -178,16 +185,29 @@ export default {
     },
     async doSearchUser({commit, state}, usernameSearch) {
       console.log(usernameSearch)
+      // if (state.isAuth) {
+      //   try {
+      //     const response = await axios.post('http://10.6.128.209:8080/api/searchUser', {
+      //       username: usernameSearch
+      //     })
+      //     response.data.username.forEach(element => {
+      //       console.log(element)
+      //     });
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
       if (state.isAuth) {
         try {
           const response = await axios.post('http://10.6.128.209:8080/api/searchUser', {
             username: usernameSearch
-          })
-          response.data.username.forEach(element => {
-            console.log(element)
           });
+          const usernames = response.data.username;
+
+          commit('setUsernames', usernames); // Actualiza el estado con los usernames obtenidos
+          console.log('auth', usernames)
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     }

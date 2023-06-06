@@ -32,23 +32,51 @@
 export default {
   data() {
     return {
+      username: '',
+      
       tweetData: [
-        {
-          id: 1,
-          avatar: 'ruta/al/avatar.png',
-          handle: '@usuario',
-          content: 'Contenido del tweet...',
-          date: 'Fecha del tweet',
-        },
-        {
-          id: 2,
-          avatar: 'ruta/al/avatar.png',
-          handle: '@usuario2',
-          content: 'Contenido del tweet...',
-          date: 'Fecha del tweet',
-        },
+        // {
+        //   id: 1,
+        //   avatar: 'ruta/al/avatar.png',
+        //   handle: '@usuario',
+        //   content: 'Contenido del tweet...',
+        //   date: 'Fecha del tweet',
+        // },
+        // {
+        //   id: 2,
+        //   avatar: 'ruta/al/avatar.png',
+        //   handle: '@usuario2',
+        //   content: 'Contenido del tweet...',
+        //   date: 'Fecha del tweet',
+        // },
       ],
     };
+    
+  },
+  created () {
+    // this.$store.dispatch('auth/sendTweet', {
+    //   username: this.username
+    // })
+    const userData = JSON.parse(localStorage.getItem('user')); // Obtener el objeto JSON del usuario desde el localStorage
+    if (userData) {
+      this.username = userData.username; // Obtener el nombre de usuario del objeto userData
+      this.fetchTweets(); // Llamar al método para obtener los tweets del usuario
+    }
+    console.log(this.username)
+  },
+  methods: {
+    async fetchTweets() {
+      try {
+        const response = await this.$store.dispatch('auth/sendTweet', {
+          username: this.username,
+        });
+        // this.tweetData = response.data; // Asignar los tweets obtenidos desde el store a la variable tweetData
+        this.tweetData = this.$store.state.auth.message
+        console.log(this.tweetData)
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>

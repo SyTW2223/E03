@@ -1,4 +1,4 @@
-import CervezaView from '@/views/CervezaView.vue'
+
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
@@ -17,14 +17,20 @@ const routes = [
     component: Home
   },
   {
-    path: '/homeLogin',
+    path: '/homeLogin/:username',
     name: 'homeLogin',
     component: HomeLogin,
     meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
   },
+  // {
+  //   path: '/userProfile',
+  //   component: UserProfile
+  // },
   {
-    path: '/userProfile',
-    component: UserProfile
+    path: '/userProfile/:username', // Utilizamos un parámetro dinámico ":username"
+    component: UserProfile,
+    props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
+    meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
   },
   {
     path: '/login',

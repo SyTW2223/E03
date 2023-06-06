@@ -82,6 +82,16 @@ export default {
       newTweetContent: ''
     };
   },
+  created() {
+    if (localStorage.getItem('token')) {
+
+      const storedUserInfo = localStorage.getItem('user');
+
+      if (storedUserInfo) {
+        this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+      }
+    }
+  },
   methods: {
     followUser() {
       // Lógica para seguir o dejar de seguir al usuario
