@@ -6,6 +6,7 @@ import loginRouter from "./routes/login.js"
 import registerRouter from "./routes/register.js"
 import tweetRouter from "./routes/tweet.js"
 import searchUserRouter from "./routes/searchUser.js"
+import userRouter from "./routes/user.js"
 
 import router from './routes/routes.js'
 import mongoose from 'mongoose'
@@ -45,11 +46,13 @@ app.use(createLog)
 
 const verifyToken = (req, res, next) => {
   const url = decodeURI(req.url) 
-  if ( url == '/api/login' || url == '/api/register' || url == '/api/tweet' || url == '/api/searchUser') {
+  if (url == '/api/login' || url == '/api/register' || url == '/api/tweet' || url == '/api/searchUser' || url.startsWith('/api/getUser/') ) {
     return next()
   }
+
   const token = req.header('auth-token')
   if (!token) return res.status(401).json({ error: 'Acceso denegado' })
+
   try {
     const verified = jwt.verify(token, process.env.TOKEN_SECRET)
     req.user = verified
@@ -65,7 +68,8 @@ app.use(verifyToken)
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
 
-app.use('/api', loginRouter, registerRouter, tweetRouter, searchUserRouter, router)
+
+app.use('/api', loginRouter, registerRouter, tweetRouter, searchUserRouter, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)
