@@ -18,6 +18,7 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
+    findUser: "",
     // username: "",
     usernames: [],
     tweets: "",
@@ -46,6 +47,9 @@ export default {
     setUser(state, user) {
       state.user = user; // Actualiza el estado con la información del usuario
     },
+    setFindUser(state, findUser) {
+      state.findUser = findUser; // Actualiza el estado con la información del usuario
+    },
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
     },
@@ -57,6 +61,7 @@ export default {
       state.email = "";
       state.password = "";
       state.user = "";
+      state.findUser = "";
       state.isAuth = false;
     },
   },
@@ -132,37 +137,6 @@ export default {
         commit('setIsAuth', false)
       }
     },
-    // async doRegister({ commit }, credentials) {
-    //   try {
-    //     // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-    //     const response = await axios.post('http://localhost:3000/api/register', {
-    //       // pasamos el correo electrónico almacenado en el estado
-    //       email: credentials.email,
-    //       // pasamos la contraseña almacenada en el estado
-    //       password: credentials.password,
-
-    //       username: credentials.username,
-
-    //       name: credentials.name
-    //     })
-    //     // Si la solicitud es exitosa, actualizamos el estado con la respuesta del servidor y registramos la respuesta en la consola
-    //     const data = response.data.message 
-    //     // actualizamos el mensaje del servidor
-    //     commit('setMessage', data)
-    //     // imprimimos la respuesta en la consola
-    //     console.log(data.message)
-
-    //     commit('setIsAuth', true)
-    //   } catch (error) {
-    //     // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
-    //     // actualizamos el mensaje del servidor
-    //     commit('setMessage', JSON.parse(error.response.request.responseText).error)
-    //     // imprimimos el mensaje de error en la consola
-    //     console.log(JSON.parse(error.response.request.responseText).error)
-
-    //     commit('setIsAuth', false)
-    //   }
-    // },
     async doLogout({ commit }) {
       // Restablecer el estado al valor inicial y borrar el token del LocalStorage
       commit('resetState');
@@ -210,6 +184,25 @@ export default {
           console.log(error);
         }
       }
-    }
+    },
+    async doGetUser({ commit, state }, username) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://10.6.128.209:8080/api/getUser/${username}`);
+          const user = response.data.user;
+
+          commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
+          // console.log('Find user:', state.findUser);
+
+          // localStorage.setItem('findUser', JSON.stringify(user));
+
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+          // imprimimos el mensaje de error en la consola
+          console.log(JSON.parse(error.response.request.responseText).error)
+          // console.log(error);
+        }
+      }
+    },
   }
 }

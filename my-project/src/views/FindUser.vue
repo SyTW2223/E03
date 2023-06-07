@@ -11,9 +11,9 @@
             </div>
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
-              <h5 class="card-title">@{{ this.userInfo.username }}</h5>
+              <!-- <h5 class="card-title">@{{ this.userInfo.username }}</h5>
               <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p>
+              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p> -->
               <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
             </div>
           </div>
@@ -79,7 +79,8 @@ export default {
   },
   data() {
     return {
-      newTweetContent: ''
+      newTweetContent: '',
+      userinfo: ''
     };
   },
   created() {
@@ -89,6 +90,16 @@ export default {
 
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+      }
+      const finduser = this.$route.params.username;
+      // console.log(finduser)
+
+      if (finduser) {
+        this.$store.dispatch('auth/doGetUser', finduser)
+        const algo = this.$store.state.auth.findUser.email /////////////////// No funcionaaaaaa
+        console.log(this.$store.state.auth)
+        console.log(this.$store.state.auth.findUser)
+        console.log(algo)
       }
     }
   },

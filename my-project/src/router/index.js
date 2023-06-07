@@ -4,6 +4,7 @@ import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
 import HomeLogin from '@/views/HomeLogin.vue'
 import UserProfile from '@/views/UserProfile.vue'
+import FindUser from '@/views/FindUser.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -29,6 +30,12 @@ const routes = [
   {
     path: '/userProfile/:username', // Utilizamos un parámetro dinámico ":username"
     component: UserProfile,
+    props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
+    meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
+  },
+  {
+    path: '/findUser/:username', // Utilizamos un parámetro dinámico ":username"
+    component: FindUser,
     props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
     meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
   },
