@@ -10,10 +10,8 @@ import User from "../models/registerModel.js";
 const router = express.Router();
 
 router.get('/getUser/:username', async (req, res) => {
-  console.log('Ruta getUser llamada');
   try {
     const username = req.params.username;
-    console.log(username)
 
     // Buscar el usuario por el nombre de usuario
     const user = await User.findOne({ username }).exec();

@@ -41,7 +41,7 @@
                       </div> -->
                       <div v-for="user in usernames" :key="user" class="list-group-item">
                         <!-- CAMBIAR, CREARIA OTRO COMPONENTE PARA EL PERFIL DE OTROS USUARIOS -->
-                        <router-link :to="`/userProfile/${user}`" class="custom-link">{{ user }}</router-link>
+                        <router-link :to="`/findUser/${user}`" class="custom-link">{{ user }}</router-link>
                       </div>
                     </div>
                     <!-- <div class="list-group">

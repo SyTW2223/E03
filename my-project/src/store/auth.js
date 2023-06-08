@@ -18,7 +18,7 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
-    findUser: "",
+    findUser: {},
     // username: "",
     usernames: [],
     tweets: "",
@@ -186,9 +186,8 @@ export default {
               authorization: 'Bearer ' + state.token
             }
           });
-      
           const user = response.data.user;
-          console.log(user.name)
+          //console.log(user.name)
           commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
           // console.log('Find user:', state.findUser);
 
@@ -197,7 +196,7 @@ export default {
         } catch (error) {
           commit('setMessage', JSON.parse(error.response.request.responseText).error)
           // imprimimos el mensaje de error en la consola
-          console.log(JSON.parse(error.response.request.responseText).error)
+          //console.log(JSON.parse(error.response.request.responseText).error)
           // console.log(error);
         }
       }

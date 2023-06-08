@@ -46,7 +46,6 @@ app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
   const header = req.header('authorization')
-  console.log(header)
   if (typeof header !== 'undefined')  {
     const bearer = header.split(' ')
     const token = bearer[1]

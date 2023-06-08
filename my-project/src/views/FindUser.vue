@@ -11,9 +11,9 @@
             </div>
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
-              <!-- <h5 class="card-title">@{{ this.userInfo.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p> -->
+              <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
+              <p class="card-text">Seguidores: {{ this.userInfoFront.followers }}</p>
+              <p class="card-text">Siguiendo: {{ this.userInfoFront.follows }}</p>
               <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
             </div>
           </div>
@@ -64,9 +64,6 @@ export default {
     Tweet,
   },
   computed: {
-    ...mapState('auth', {
-      userInfo: state => state.user
-    }),
     // logUserInfo() {
     //   // console.log(this.userInfo);
     //   // console.log(this.userInfo.name);
@@ -80,10 +77,10 @@ export default {
   data() {
     return {
       newTweetContent: '',
-      userinfo: ''
+      userInfoFront: {},
     };
   },
-  created() {
+  async created() {
     if (localStorage.getItem('token')) {
 
       const storedUserInfo = localStorage.getItem('user');
@@ -95,11 +92,8 @@ export default {
       // console.log(finduser)
 
       if (finduser) {
-        this.$store.dispatch('auth/doGetUser', finduser)
-        const algo = this.$store.state.auth.findUser.email /////////////////// No funcionaaaaaa
-        console.log(this.$store.state.auth)
-        console.log(this.$store.state.auth.findUser)
-        console.log(algo)
+        await this.$store.dispatch('auth/doGetUser', finduser)
+        this.userInfoFront = this.$store.state.auth.findUser
       }
     }
   },
