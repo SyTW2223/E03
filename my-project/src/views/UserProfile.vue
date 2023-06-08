@@ -67,11 +67,11 @@ export default {
     ...mapState('auth', {
       userInfo: state => state.user
     }),
-    // logUserInfo() {
-    //   // console.log(this.userInfo);
-    //   // console.log(this.userInfo.name);
-    //   return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
-    // },
+    logUserInfo() {
+      // console.log(this.userInfo);
+      // console.log(this.userInfo.name);
+      return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
+    },
     following() {
       // Simulación del estado de seguir o dejar de seguir al usuario
       return false;

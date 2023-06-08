@@ -22,7 +22,8 @@ export default {
     // username: "",
     usernames: [],
     tweets: "",
-    isAuth: localStorage.getItem('token') ? true : false
+    isAuth: localStorage.getItem('token') ? true : false,
+    token: localStorage.getItem('token') ? localStorage.getItem('token') : undefined
   },
   // Definimos las mutaciones que se utilizarán para actualizar el estado
   mutations: {
@@ -149,6 +150,10 @@ export default {
           const response = await axios.post('http://localhost:8080/api/tweet', {
             username: state.user.username,
             message: message
+          }, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
           })
           console.log(response)
         } catch(error) {
@@ -157,23 +162,12 @@ export default {
       }
     },
     async doSearchUser({commit, state}, usernameSearch) {
-      console.log(usernameSearch)
-      // if (state.isAuth) {
-      //   try {
-      //     const response = await axios.post('http://localhost:8080/api/searchUser', {
-      //       username: usernameSearch
-      //     })
-      //     response.data.username.forEach(element => {
-      //       console.log(element)
-      //     });
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
       if (state.isAuth) {
         try {
-          const response = await axios.post('http://localhost:8080/api/searchUser', {
-            username: usernameSearch
+          const response = await axios.get(`http://localhost:8080/api/searchUser/${usernameSearch}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
           });
           const usernames = response.data.username;
 
@@ -187,9 +181,14 @@ export default {
     async doGetUser({ commit, state }, username) {
       if (state.isAuth) {
         try {
-          const response = await axios.get(`http://localhost:8080/api/getUser/${username}`);
+          const response = await axios.get(`http://localhost:8080/api/getUser/${username}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+      
           const user = response.data.user;
-
+          console.log(user.name)
           commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
           // console.log('Find user:', state.findUser);
 
