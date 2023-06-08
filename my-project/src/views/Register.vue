@@ -4,7 +4,7 @@
     <div id="register">
       <div id="description">
         <h1>Register</h1>
-        <p>By registering you agree to the ridiculously long terms that you didn't bother to read.</p>
+        <a href= 'http://localhost:3000/#/login'>Si ya tienes una cuenta, inicia sesión<p><small></small></p></a>
       </div>
       <div id="form">
         <form @submit.prevent="doRegister">
@@ -101,6 +101,12 @@ export default {
         // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
         this.$router.push('/homeLogin');
       }
+      this.$router.push('/Login');
+
+      // Eliminar el token del almacenamiento de sesión al cerrar el navegador
+      window.addEventListener('beforeunload', function() {
+        sessionStorage.removeItem('token');
+      });
     }
   }
 }

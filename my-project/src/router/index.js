@@ -7,6 +7,7 @@ import UserProfile from '@/views/UserProfile.vue'
 import FindUser from '@/views/FindUser.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Password from '@/views/Password.vue'
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,7 @@ const routes = [
   // {
   //   path: '/userProfile',
   //   component: UserProfile
-  // },
+  // }
   {
     path: '/userProfile/:username', // Utilizamos un parámetro dinámico ":username"
     component: UserProfile,
@@ -46,6 +47,10 @@ const routes = [
   {
     path: '/register',
     component: Register
+  },
+  {
+    path: '/password',
+    component: Password
   }
 ]
 

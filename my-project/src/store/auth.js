@@ -80,7 +80,7 @@ export default {
         const userInfo = response.data.user
 
         const data = response.data.message // lo quitaria?
-        
+
         // commit('setUsername', username)
         // console.log(username)
 
@@ -126,7 +126,6 @@ export default {
         console.log(data.message)
 
         commit('setIsAuth', true)
-        localStorage.setItem('token', response.data.data.token);
       } catch (error) {
         // Si la solicitud falla, actualizamos el estado con el mensaje de error y registramos el mensaje en la consola
         // actualizamos el mensaje del servidor
