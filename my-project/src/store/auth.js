@@ -70,7 +70,7 @@ export default {
     async doLogin({ commit }, credentials) {
       try {
         // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-        const response = await axios.post('http://10.6.128.209:8080/api/login', {
+        const response = await axios.post('http://localhost:8080/api/login', {
           // pasamos el correo electrónico almacenado en el estado
           email: credentials.email,
           // pasamos la contraseña almacenada en el estado
@@ -108,7 +108,7 @@ export default {
     async doRegister({ commit }, credentials) {
       try {
         // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-        const response = await axios.post('http://10.6.128.209:8080/api/register', {
+        const response = await axios.post('http://localhost:8080/api/register', {
           // pasamos el correo electrónico almacenado en el estado
           email: credentials.email,
           // pasamos la contraseña almacenada en el estado
@@ -146,7 +146,7 @@ export default {
     async sendTweet ({commit, state}, message) {
       if (state.isAuth) {
         try {
-          const response = await axios.post('http://10.6.128.209:8080/api/tweet', {
+          const response = await axios.post('http://localhost:8080/api/tweet', {
             username: state.user.username,
             message: message
           })
@@ -160,7 +160,7 @@ export default {
       console.log(usernameSearch)
       // if (state.isAuth) {
       //   try {
-      //     const response = await axios.post('http://10.6.128.209:8080/api/searchUser', {
+      //     const response = await axios.post('http://localhost:8080/api/searchUser', {
       //       username: usernameSearch
       //     })
       //     response.data.username.forEach(element => {
@@ -172,7 +172,7 @@ export default {
       // }
       if (state.isAuth) {
         try {
-          const response = await axios.post('http://10.6.128.209:8080/api/searchUser', {
+          const response = await axios.post('http://localhost:8080/api/searchUser', {
             username: usernameSearch
           });
           const usernames = response.data.username;
@@ -187,7 +187,7 @@ export default {
     async doGetUser({ commit, state }, username) {
       if (state.isAuth) {
         try {
-          const response = await axios.get(`http://10.6.128.209:8080/api/getUser/${username}`);
+          const response = await axios.get(`http://localhost:8080/api/getUser/${username}`);
           const user = response.data.user;
 
           commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
