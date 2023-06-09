@@ -1,8 +1,8 @@
 // Importamos los módulos necesarios
-import axios from 'axios' // para enviar solicitudes HTTP
-import Vuex from 'vuex' // para manejar el estado de la aplicación
-import Vue from 'vue'
-import router from '../router/index'
+import axios from 'axios'; // para enviar solicitudes HTTP
+import Vue from 'vue';
+import Vuex from 'vuex'; // para manejar el estado de la aplicación
+import router from '../router/index';
 
 
 // Usamos Vuex
@@ -21,7 +21,7 @@ export default {
     findUser: {},
     // username: "",
     usernames: [],
-    tweets: "",
+    publications: {},
     isAuth: localStorage.getItem('token') ? true : false,
     token: localStorage.getItem('token') ? localStorage.getItem('token') : undefined
   },
@@ -36,9 +36,6 @@ export default {
     setName(state, name) {
       state.name = name // actualizamos la contraseña
     },
-    // setUsername(state, username) {
-    //   state.username = username // actualizamos la contraseña
-    // },
     setUsernames(state, usernames) {
       state.usernames = usernames // actualizamos la contraseña
     },
@@ -54,8 +51,8 @@ export default {
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
     },
-    setTweets(state, tweets) {
-      state.tweets = tweets
+    setPublications(state, publications) {
+      state.publications = publications
     },
     resetState(state) {
       state.message = "";
@@ -144,10 +141,10 @@ export default {
       localStorage.removeItem('user');
       router.push('/');
     },
-    async sendTweet ({commit, state}, message) {
+    async sendPublication({ commit, state }, message) {
       if (state.isAuth) {
         try {
-          const response = await axios.post('http://localhost:8080/api/tweet', {
+          const response = await axios.post('http://localhost:8080/api/publication', {
             username: state.user.username,
             message: message
           }, {
@@ -156,12 +153,12 @@ export default {
             }
           })
           console.log(response)
-        } catch(error) {
+        } catch (error) {
           console.log(error)
         }
       }
     },
-    async doSearchUser({commit, state}, usernameSearch) {
+    async doSearchUser({ commit, state }, usernameSearch) {
       if (state.isAuth) {
         try {
           const response = await axios.get(`http://localhost:8080/api/searchUser/${usernameSearch}`, {
@@ -198,6 +195,42 @@ export default {
           // imprimimos el mensaje de error en la consola
           //console.log(JSON.parse(error.response.request.responseText).error)
           // console.log(error);
+        }
+      }
+    },
+    async doPublicactions({ commit, state }, username) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/getPublications/${username}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          const publicactions = response.data.publications;
+          console.log(publicactions)
+          
+          commit('setPublications', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+          
+        }
+      }
+    },
+    async doprub({ commit, state }, username) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/prub/${username}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          const publicactions = response.data.publications;
+          console.log(publicactions)
+          
+          commit('setPublications', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+          
         }
       }
     },

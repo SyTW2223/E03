@@ -14,7 +14,7 @@
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
               <p class="card-text">Seguidores: {{ this.userInfoFront.followers }}</p>
               <p class="card-text">Siguiendo: {{ this.userInfoFront.follows }}</p>
-              <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
+              <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button>
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -32,20 +32,20 @@
         <div class="col-md-9">
           <div class="bigcard">
 
-            <!-- Formulario para crear nuevos tweets -->
+            <!-- Formulario para crear nuevos publications -->
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Nuevo Tweet</h5>
-                <form @submit.prevent="createTweet">
+                <h5 class="card-title">Nuevo publication</h5>
+                <form @submit.prevent="createpublication">
                   <div class="form-group">
-                    <textarea class="form-control" rows="3" v-model="newTweetContent"></textarea>
+                    <textarea class="form-control" rows="3" v-model="newpublicationContent"></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary">Publicar</button>
                 </form>
               </div>
             </div>
-            <!-- Sección de tweets publicados -->
-            <Tweet/>
+            <!-- Sección de publications publicados -->
+            <publication/>
           </div>
         </div>
       </div>
@@ -55,13 +55,13 @@
 
 <script>
 import { mapState } from 'vuex'; // Importa la función mapState de vuex
-import Tweet from "../components/Tweet.vue";
+import publication from "../components/Publication.vue";
 import Navbar from "../components/Navbar.vue";
 
 export default {
   components: {
     Navbar,
-    Tweet,
+    publication,
   },
   computed: {
     // logUserInfo() {
@@ -71,12 +71,13 @@ export default {
     // },
     following() {
       // Simulación del estado de seguir o dejar de seguir al usuario
-      return false;
+
+
     }
   },
   data() {
     return {
-      newTweetContent: '',
+      newpublicationContent: '',
       userInfoFront: {},
     };
   },
@@ -101,9 +102,9 @@ export default {
     followUser() {
       // Lógica para seguir o dejar de seguir al usuario
     },
-    async createTweet() {
-      // Lógica para crear un nuevo tweet
-      await this.$store.dispatch('auth/sendTweet', this.newTweetContent)
+    async createpublication() {
+      // Lógica para crear un nuevo publication
+      await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
     }
   },
 };

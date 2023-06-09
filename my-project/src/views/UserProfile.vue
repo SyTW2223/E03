@@ -32,20 +32,30 @@
         <div class="col-md-9">
           <div class="bigcard">
 
-            <!-- Formulario para crear nuevos tweets -->
+            <!-- Formulario para crear nuevos publications -->
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Nuevo Tweet</h5>
-                <form @submit.prevent="createTweet">
+                <h5 class="card-title">Nuevo publication</h5>
+                <form @submit.prevent="createpublication">
                   <div class="form-group">
-                    <textarea class="form-control" rows="3" v-model="newTweetContent"></textarea>
+                    <textarea class="form-control" rows="3" v-model="newpublicationContent"></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary">Publicar</button>
                 </form>
               </div>
+              <div class="alert alert-success mt-3" role="alert" v-if="showAlert">
+                Publicación enviada exitosamente.
+                <button type="button" class="btn-close" @click="closeAlert"></button>
+              </div>
+
+              <!-- Alerta de contenido vacío -->
+              <div class="alert alert-danger mt-3" role="alert" v-if="showEmptyAlert">
+                El contenido de la publicación no puede estar vacío.
+                <button type="button" class="btn-close" @click="closeEmptyAlert"></button>
+              </div>
             </div>
-            <!-- Sección de tweets publicados -->
-            <Tweet/>
+            <!-- Sección de publications publicados -->
+            <publication/>
           </div>
         </div>
       </div>
@@ -55,13 +65,13 @@
 
 <script>
 import { mapState } from 'vuex'; // Importa la función mapState de vuex
-import Tweet from "../components/Tweet.vue";
+import publication from "../components/Publication.vue";
 import Navbar from "../components/Navbar.vue";
 
 export default {
   components: {
     Navbar,
-    Tweet,
+    publication,
   },
   computed: {
     ...mapState('auth', {
@@ -79,7 +89,9 @@ export default {
   },
   data() {
     return {
-      newTweetContent: ''
+      newpublicationContent: '',
+      showAlert: false,
+      showEmptyAlert: false
     };
   },
   created() {
@@ -96,9 +108,29 @@ export default {
     followUser() {
       // Lógica para seguir o dejar de seguir al usuario
     },
-    async createTweet() {
-      // Lógica para crear un nuevo tweet
-      await this.$store.dispatch('auth/sendTweet', this.newTweetContent)
+    // async createpublication() {
+    //   // Lógica para crear un nuevo publication
+    //   await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
+    // }
+    async createpublication() {
+      if (this.newpublicationContent.trim() === '') {
+        this.showEmptyAlert = true;
+        return;
+      }
+
+      await this.$store.dispatch('auth/sendPublication', this.newpublicationContent);
+      this.newpublicationContent = '';
+      this.showAlert = true;
+      setTimeout(() => {
+        this.showAlert = false;
+      }, 3000);
+      window.location.reload();
+    },
+    closeAlert() {
+      this.showAlert = false;
+    },
+    closeEmptyAlert() {
+      this.showEmptyAlert = false;
     }
   },
 };

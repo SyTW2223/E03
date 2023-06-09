@@ -45,7 +45,7 @@
                       </div>
                     </div>
                     <!-- <div class="list-group">
-                      <Tweet></Tweet>
+                      <publication></publication>
                     </div> -->
                   </div>
                   
@@ -67,19 +67,19 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
-import Tweet from "../components/Tweet.vue";
+import publication from "../components/Publication.vue";
 import RecommendedUsers from "../components/RecommendedUsers.vue";
 
 export default {
   components: {
     Navbar,
     Sidebar,
-    Tweet,
+    publication,
     RecommendedUsers,
   },
   data() {
     return {
-      tweets: [],
+      publications: [],
       findUsername: '',
       sidebarActive: false,
       usernames: [],
