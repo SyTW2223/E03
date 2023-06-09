@@ -4,7 +4,7 @@ import database from "../index.js"
 import User from "../models/registerModel.js"
 import Joi from "@hapi/joi"
 
-const schemaTweet = Joi.object({
+const schemapublication = Joi.object({
   username: Joi.string().required(),
   message: Joi.string().required()
 })
@@ -12,8 +12,8 @@ const schemaTweet = Joi.object({
 
 const router = express.Router()
 
-router.post('/tweet', async (req, res) => {
-    const { error } = schemaTweet.validate(req.body)
+router.post('/publication', async (req, res) => {
+    const { error } = schemapublication.validate(req.body)
     
     if (error) {
       return res.status(400).json({
@@ -23,17 +23,21 @@ router.post('/tweet', async (req, res) => {
 
     const respuesta = await User.findOne({username: req.body.username}).exec()
     if (!respuesta) return res.status(400).json({error: "Usuario no encontrado"})
-    const tiempoTranscurrido = Date.now();
-    const hoy = new Date(tiempoTranscurrido);
-    respuesta.tweets.push({
+
+    // const tiempoTranscurrido = Date.now();
+
+    // const hoy = new Date(tiempoTranscurrido);
+
+    respuesta.publications.push({
         message: req.body.message,
-        date: hoy.toLocaleDateString()
+        // date: hoy.toLocaleDateString()
+        date: Date.now()
     })
     respuesta.save()
     res.status(200).json({
         error: null,
-        message: 'Tweet enviado con exito',
-        tweet: req.body.message
+        message: 'publication enviado con exito',
+        publication: req.body.message
     })
 })
 

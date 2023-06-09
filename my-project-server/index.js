@@ -3,13 +3,14 @@ import { config } from 'dotenv'
 import express from 'express'
 
 import loginRouter from "./routes/login.js"
+import publicationRouter from "./routes/publication.js"
 import registerRouter from "./routes/register.js"
-import tweetRouter from "./routes/tweet.js"
 import searchUserRouter from "./routes/searchUser.js"
+import showPublication from "./routes/showPublication.js"
 import userRouter from "./routes/user.js"
 
-import router from './routes/routes.js'
 import mongoose from 'mongoose'
+import router from './routes/routes.js'
 
 import jwt from 'jsonwebtoken'
 
@@ -46,12 +47,12 @@ app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
   const header = req.header('authorization')
-  if (typeof header !== 'undefined')  {
+  if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]
-    await jwt.verify(token,  process.env.TOKEN_SECRET, async (err) => {
+    await jwt.verify(token, process.env.TOKEN_SECRET, async (err) => {
       if (err) {
-        res.status(401).json({error: 'token no es válido'})
+        res.status(401).json({ error: 'token no es válido' })
       } else {
         await next();
       }
@@ -66,9 +67,7 @@ app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-
-
-app.use('/api', tweetRouter, searchUserRouter, userRouter, router)
+app.use('/api', publicationRouter, showPublication, searchUserRouter, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)
