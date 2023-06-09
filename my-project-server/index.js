@@ -7,6 +7,7 @@ import publicationRouter from "./routes/publication.js"
 import registerRouter from "./routes/register.js"
 import searchUserRouter from "./routes/searchUser.js"
 import showPublication from "./routes/showPublication.js"
+import following from "./routes/following.js"
 import userRouter from "./routes/user.js"
 
 import mongoose from 'mongoose'
@@ -58,6 +59,7 @@ const verifyToken = async (req, res, next) => {
       }
     })
   } else {
+    // console.log(req)
     return res.status(401).json({ error: 'Acceso denegado' })
   }
 }
@@ -67,7 +69,7 @@ app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-app.use('/api', publicationRouter, showPublication, searchUserRouter, userRouter, router)
+app.use('/api', showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)

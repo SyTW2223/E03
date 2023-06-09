@@ -31,19 +31,6 @@
         </div>
         <div class="col-md-9">
           <div class="bigcard">
-
-            <!-- Formulario para crear nuevos publications -->
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Nuevo publication</h5>
-                <form @submit.prevent="createpublication">
-                  <div class="form-group">
-                    <textarea class="form-control" rows="3" v-model="newpublicationContent"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Publicar</button>
-                </form>
-              </div>
-            </div>
             <!-- Sección de publications publicados -->
             <publication/>
           </div>
@@ -71,7 +58,7 @@ export default {
     // },
     following() {
       // Simulación del estado de seguir o dejar de seguir al usuario
-
+      
 
     }
   },
@@ -99,11 +86,15 @@ export default {
     }
   },
   methods: {
-    followUser() {
+    async followUser() {
       // Lógica para seguir o dejar de seguir al usuario
+      const user = this.$route.params.username;
+
+      await this.$store.dispatch('auth/doFollowing', user)
     },
     async createpublication() {
       // Lógica para crear un nuevo publication
+      
       await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
     }
   },

@@ -18,6 +18,7 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
+    following: "",
     findUser: {},
     // username: "",
     usernames: [],
@@ -47,6 +48,9 @@ export default {
     },
     setFindUser(state, findUser) {
       state.findUser = findUser; // Actualiza el estado con la información del usuario
+    },
+    setFollowing(state, following) {
+      state.following = following; // Actualiza el estado con la información del usuario
     },
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
@@ -207,7 +211,6 @@ export default {
             }
           });
           const publicactions = response.data.publications;
-          console.log(publicactions)
           
           commit('setPublications', publicactions);
         } catch (error) {
@@ -216,23 +219,22 @@ export default {
         }
       }
     },
-    async doprub({ commit, state }, username) {
+    async doFollowing({ commit, state }, username) {
       if (state.isAuth) {
         try {
-          const response = await axios.get(`http://localhost:8080/api/prub/${username}`, {
+          const response = await axios.post(`http://localhost:8080/api/following/${username}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
           });
-          const publicactions = response.data.publications;
-          console.log(publicactions)
-          
-          commit('setPublications', publicactions);
+          console.log(response)
+          commit('setMessage', response)
+
         } catch (error) {
-          commit('setMessage', JSON.parse(error.response.request.responseText).error)
-          
+          console.log(error);
         }
       }
     },
+    
   }
 }

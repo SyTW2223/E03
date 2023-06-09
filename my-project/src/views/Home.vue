@@ -42,8 +42,6 @@
                     </a> -->
                     <!-- Agrega más publications aquí -->
                     
-                    <publication></publication>
-                    
                   </div>
                 </div>
                 

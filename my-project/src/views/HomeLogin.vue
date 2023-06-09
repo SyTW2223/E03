@@ -24,7 +24,7 @@
             <div class="container">
               <div>
                 <div class="row" style="height: 100%;">
-                  <div class="col-lg-7 pr-lg-4 custom-column column-margin">
+                  <div class="col-lg-12 pr-lg-4 custom-column column-margin">
                     <!-- Columna izquierda (mayor) -->
                     <div class="d-flex justify-content-center mb-3">
                       <!-- Buscador -->
@@ -49,12 +49,7 @@
                     </div> -->
                   </div>
                   
-                  <div class="col-lg-4 custom-column column-margin">
-                    <!-- Columna derecha -->
-                    <h3>Recomendaciones</h3>
-                      <RecommendedUsers/>
-                      <!-- Recomendaciones de usuarios -->
-                  </div>
+                  
                 </div>
               </div>
             </div>

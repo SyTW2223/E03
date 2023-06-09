@@ -36,7 +36,7 @@ router.post('/publication', async (req, res) => {
     respuesta.save()
     res.status(200).json({
         error: null,
-        message: 'publication enviado con exito',
+        message: 'Publicacion enviada con exito',
         publication: req.body.message
     })
 })
