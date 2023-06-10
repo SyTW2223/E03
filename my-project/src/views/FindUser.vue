@@ -14,7 +14,20 @@
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
               <p class="card-text">Seguidores: {{ this.userInfoFront.followers }}</p>
               <p class="card-text">Siguiendo: {{ this.userInfoFront.follows }}</p>
-              <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button>
+              <button class="btn btn-primary" @click="followUser">{{ !checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </symbol>
+              </svg>
+
+              <div class="alert alert-danger d-flex align-items-center d-flex justify-content-center" v-if="message & checkFollow" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                <div>
+                  <!-- "Aqui el error" -->
+                  {{ this.message }}
+                </div>
+              </div>
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -66,6 +79,11 @@ export default {
     return {
       newpublicationContent: '',
       userInfoFront: {},
+      message: '',
+      user: '',
+      userfind: '',
+      checkFollow: false
+
     };
   },
   async created() {
@@ -76,21 +94,40 @@ export default {
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
-      const finduser = this.$route.params.username;
+      const finduser = this.$route.params.userfind;
       // console.log(finduser)
 
       if (finduser) {
         await this.$store.dispatch('auth/doGetUser', finduser)
         this.userInfoFront = this.$store.state.auth.findUser
       }
+
+      this.user = this.$route.params.username;
+      this.userfind= this.$route.params.userfind;
+
+      await this.$store.dispatch('auth/doCheckFollow', { username: this.user, finduser: this.userfind })
+
+      if (this.$store.state.auth.message.data.error) {
+        this.checkFollow = true
+        this.message = this.$store.state.auth.message.data.error
+      } else {
+        this.checkFollow = false
+        this.message = this.$store.state.auth.message.data.message
+      }
+      console.log(this.checkFollow)
     }
   },
   methods: {
     async followUser() {
       // Lógica para seguir o dejar de seguir al usuario
-      const user = this.$route.params.username;
+      // const user = this.$route.params.username;
+      // const userfind = this.$route.params.userfind;
 
-      await this.$store.dispatch('auth/doFollowing', user)
+      console.log(this.user, this.userfind)
+
+      await this.$store.dispatch('auth/doFollowing', { username: this.user, finduser: this.userfind })
+
+      this.message = this.$store.state.auth.message
     },
     async createpublication() {
       // Lógica para crear un nuevo publication

@@ -35,7 +35,7 @@ const routes = [
     meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
   },
   {
-    path: '/findUser/:username', // Utilizamos un parámetro dinámico ":username"
+    path: '/findUser/:username/:userfind', // Utilizamos un parámetro dinámico ":username"
     component: FindUser,
     props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
     meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación

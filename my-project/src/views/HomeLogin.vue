@@ -39,9 +39,10 @@
                       <!-- <div>
                         {{ this.username }}
                       </div> -->
-                      <div v-for="user in usernames" :key="user" class="list-group-item">
+                      <div v-for="users in usernames" :key="users" class="list-group-item">
                         <!-- CAMBIAR, CREARIA OTRO COMPONENTE PARA EL PERFIL DE OTROS USUARIOS -->
-                        <router-link :to="`/findUser/${user}`" class="custom-link">{{ user }}</router-link>
+                        <router-link v-if="ownuser !== users" :to="`/findUser/${ownuser}/${users}`" class="custom-link">{{ users }}</router-link>
+                        <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">{{ users }}</router-link>
                       </div>
                     </div>
                     <!-- <div class="list-group">
@@ -78,7 +79,7 @@ export default {
       findUsername: '',
       sidebarActive: false,
       usernames: [],
-      prub: [1, 2, 3]
+      ownuser: this.$store.state.auth.user.username
     };
   },
   created() {
@@ -89,6 +90,7 @@ export default {
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
+      // console.log(this.ownuser)
     }
   },
   computed: {

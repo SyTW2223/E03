@@ -44,9 +44,18 @@ export default {
     
   },
   async created () {
-    const user = this.$route.params.username;
+    // const user = this.$route.params.username;
+    const routeParams = this.$route.params;
 
-    await this.$store.dispatch('auth/doPublicactions', user)
+    if (routeParams.userfind) {
+      // Ruta /findUser/:username/:userfind
+      this.username = routeParams.userfind;
+    } else {
+      // Ruta /userProfile/:username
+      this.username = routeParams.username;
+    }
+
+    await this.$store.dispatch('auth/doPublicactions', this.username)
 
     this.publicationData = this.$store.state.auth.publications
   },
