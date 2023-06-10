@@ -47,7 +47,8 @@ const createLog = (req, res, next) => {
 app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
-  const header = req.header('authorization')
+  const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
+  console.log(header)
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]
