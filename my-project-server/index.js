@@ -8,6 +8,7 @@ import registerRouter from "./routes/register.js"
 import searchUserRouter from "./routes/searchUser.js"
 import showPublication from "./routes/showPublication.js"
 import following from "./routes/following.js"
+import checkfollow from "./routes/checkfollow.js"
 import userRouter from "./routes/user.js"
 
 import mongoose from 'mongoose'
@@ -70,7 +71,7 @@ app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-app.use('/api', showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
+app.use('/api', checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)

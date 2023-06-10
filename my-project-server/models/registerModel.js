@@ -13,8 +13,9 @@ const publicationSchema = new mongoose.Schema({
 
 const followsUserSchema = new mongoose.Schema({
   username: {
-    type: String,
     required: true,
+    trim: true,
+    type: String
   },
 });
 
