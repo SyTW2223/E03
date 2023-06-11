@@ -95,17 +95,24 @@ export default {
       userInfo: {}
     };
   },
-  created() {
+  async created() {
     if (localStorage.getItem('token')) {
 
-      const storedUserInfo = localStorage.getItem('user');
+      // const storedUserInfo = localStorage.getItem('user');
 
-      if (storedUserInfo) {
-        this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
-        this.userInfo = this.$store.state.auth.user
-        console.log(this.userInfo.followers)
-        console.log(this.userInfo.follows)
+      const user = this.$route.params.username
+
+      if (user) {
+        await this.$store.dispatch('auth/doGetUser', user)
+        this.userInfo = this.$store.state.auth.findUser
       }
+
+      // if (storedUserInfo) {
+      //   this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+      //   this.userInfo = this.$store.state.auth.user
+      //   console.log(this.userInfo.followers)
+      //   console.log(this.userInfo.follows)
+      // }
     }
   },
   methods: {
