@@ -12,9 +12,9 @@
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfoFront.followers }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfoFront.follows }}</p>
-              <button class="btn btn-primary" @click="followUser">{{ !checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
+              <p class="card-text">Seguidores: {{ this.userInfoFront.follows }}</p>
+              <p class="card-text">Siguiendo: {{ this.userInfoFront.followers }}</p>
+              <button class="btn btn-primary" @click="followUser">{{ checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
               <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -64,16 +64,19 @@ export default {
     publication,
   },
   computed: {
-    // logUserInfo() {
-    //   // console.log(this.userInfo);
-    //   // console.log(this.userInfo.name);
-    //   return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
+    // ...mapState('auth', ['findUser']), // Importa la propiedad findUser del módulo auth
+    // followers() {
+    //   if (this.findUser && this.findUser.followersUser) {
+    //     return this.findUser.followersUser.length; // Retorna la cantidad de seguidores
+    //   }
+    //   return 0;
     // },
-    following() {
-      // Simulación del estado de seguir o dejar de seguir al usuario
-      
-
-    }
+    // following() {
+    //   if (this.findUser && this.findUser.followsUser) {
+    //     return this.findUser.followsUser.length; // Retorna la cantidad de usuarios seguidos
+    //   }
+    //   return 0;
+    // }
   },
   data() {
     return {
@@ -103,16 +106,17 @@ export default {
       }
 
       this.user = this.$route.params.username;
-      this.userfind= this.$route.params.userfind;
+      this.userfind = this.$route.params.userfind;
 
       await this.$store.dispatch('auth/doCheckFollow', { username: this.user, finduser: this.userfind })
 
-      if (this.$store.state.auth.message.data.error) {
+      console.log(this.$store.state.auth.message)
+      if (!this.$store.state.auth.message.error) {
         this.checkFollow = true
-        this.message = this.$store.state.auth.message.data.error
+        this.message = this.$store.state.auth.message.error
       } else {
         this.checkFollow = false
-        this.message = this.$store.state.auth.message.data.message
+        this.message = this.$store.state.auth.message.message
       }
       console.log(this.checkFollow)
     }
@@ -120,18 +124,33 @@ export default {
   methods: {
     async followUser() {
       // Lógica para seguir o dejar de seguir al usuario
-      // const user = this.$route.params.username;
-      // const userfind = this.$route.params.userfind;
+      if (!this.checkFollow) {
+        // Lógica para seguir al usuario
+        await this.$store.dispatch('auth/doFollowing', { username: this.user, finduser: this.userfind })
+        this.checkFollow = true
 
-      console.log(this.user, this.userfind)
-
-      await this.$store.dispatch('auth/doFollowing', { username: this.user, finduser: this.userfind })
+        // Incrementar el número de usuarios seguidos
+        this.userInfoFront.follows++;
+      } else {
+        // Lógica para dejar de seguir al usuario
+        await this.unfollowUser();
+      }
 
       this.message = this.$store.state.auth.message
     },
+    async unfollowUser() {
+      // Lógica para seguir o dejar de seguir al usuario
+      await this.$store.dispatch('auth/doUnfollowing', { username: this.user, finduser: this.userfind })
+
+      this.message = this.$store.state.auth.message
+
+      this.checkFollow = false; // Actualiza checkFollow a true
+
+      // Decrementar el número de usuarios seguidos
+      this.userInfoFront.follows--;
+    },
     async createpublication() {
       // Lógica para crear un nuevo publication
-      
       await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
     }
   },

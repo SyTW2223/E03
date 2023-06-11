@@ -47,6 +47,8 @@ const dataSchema = new mongoose.Schema({
   publications: [publicationSchema],
 
   followsUser: [followsUserSchema],
+
+  followersUser: [followsUserSchema],
 })
 
 export default mongoose.model('Users', dataSchema);

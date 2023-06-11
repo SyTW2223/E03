@@ -211,18 +211,17 @@ export default {
             }
           });
           const publicactions = response.data.publications;
-          
+
           commit('setPublications', publicactions);
         } catch (error) {
           commit('setMessage', JSON.parse(error.response.request.responseText).error)
-          
+
         }
       }
     },
     async doFollowing({ commit, state }, { username, finduser }) {
       if (state.isAuth) {
         try {
-          console.log(username, finduser)
           const response = await axios.post(`http://localhost:8080/api/following/${username}/${finduser}`, {
             headers: {
               authorization: 'Bearer ' + state.token
@@ -230,26 +229,7 @@ export default {
           });
           console.log(response)
           commit('setMessage', response)
-          
-        } catch (error) {
-          commit('setMessage', JSON.parse(error.response.request.responseText).error)
-          
-          console.log(JSON.parse(error.response.request.responseText).error);
-        }
-      }
-    },
-    async doCheckFollow({ commit, state }, { username, finduser }) {
-      if (state.isAuth) {
-        try {
-          console.log(username, finduser)
-          const response = await axios.post(`http://localhost:8080/api/checkfollowing/${username}/${finduser}`, {
-            headers: {
-              authorization: 'Bearer ' + state.token
-            }
-          });
-          // console.log(response)
-          commit('setMessage', response)
-          
+
         } catch (error) {
           commit('setMessage', JSON.parse(error.response.request.responseText).error)
 
@@ -257,6 +237,45 @@ export default {
         }
       }
     },
-    
+    async doUnfollowing({ commit, state }, { username, finduser }) {
+      if (state.isAuth) {
+        try {
+          console.log(username, finduser)
+          const response = await axios.post(`http://localhost:8080/api/unfollowing/${username}/${finduser}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          console.log(response)
+          commit('setMessage', response)
+
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+          console.log(JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+    async doCheckFollow({ commit, state }, { username, finduser }) {
+      if (state.isAuth) {
+        try {
+          // console.log(username, finduser)
+          const response = await axios.post(`http://localhost:8080/api/checkfollowing/${username}/${finduser}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          console.log(response.data)
+          commit('setMessage', response.data)
+          
+        } catch (error) {
+          // console.log(JSON.parse(error.response.request.responseText))
+          commit('setMessage', JSON.parse(error.response.request.responseText))
+
+          console.log(JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+
   }
 }

@@ -2,13 +2,14 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import express from 'express'
 
+import checkfollow from "./routes/checkfollow.js"
+import following from "./routes/following.js"
 import loginRouter from "./routes/login.js"
 import publicationRouter from "./routes/publication.js"
 import registerRouter from "./routes/register.js"
 import searchUserRouter from "./routes/searchUser.js"
 import showPublication from "./routes/showPublication.js"
-import following from "./routes/following.js"
-import checkfollow from "./routes/checkfollow.js"
+import unfollowing from "./routes/unfollowing.js"
 import userRouter from "./routes/user.js"
 
 import mongoose from 'mongoose'
@@ -71,7 +72,7 @@ app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-app.use('/api', checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
+app.use('/api', unfollowing, checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)

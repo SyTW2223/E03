@@ -74,9 +74,9 @@ export default {
     publication,
   },
   computed: {
-    ...mapState('auth', {
-      userInfo: state => state.user
-    }),
+    // ...mapState('auth', {
+    //   userInfo: state => state.user
+    // }),
     // logUserInfo() {
     //   // console.log(this.userInfo);
     //   // console.log(this.userInfo.name);
@@ -91,7 +91,8 @@ export default {
     return {
       newpublicationContent: '',
       showAlert: false,
-      showEmptyAlert: false
+      showEmptyAlert: false,
+      userInfo: {}
     };
   },
   created() {
@@ -101,6 +102,9 @@ export default {
 
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
+        this.userInfo = this.$store.state.auth.user
+        console.log(this.userInfo.followers)
+        console.log(this.userInfo.follows)
       }
     }
   },
