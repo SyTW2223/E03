@@ -14,6 +14,7 @@ const router = express.Router()
 
 router.post('/publication', async (req, res) => {
     const { error } = schemapublication.validate(req.body)
+
     
     if (error) {
       return res.status(400).json({
@@ -21,7 +22,7 @@ router.post('/publication', async (req, res) => {
       })
     }
 
-    const respuesta = await User.findOne({username: req.body.username}).exec()
+  const respuesta = await User.findOne({ username: req.body.username }).exec()
     if (!respuesta) return res.status(400).json({error: "Usuario no encontrado"})
 
     // const tiempoTranscurrido = Date.now();
@@ -30,7 +31,7 @@ router.post('/publication', async (req, res) => {
 
     respuesta.publications.push({
         message: req.body.message,
-        // date: hoy.toLocaleDateString()
+      username: req.body.username,
         date: Date.now()
     })
     respuesta.save()

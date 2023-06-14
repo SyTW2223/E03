@@ -23,6 +23,7 @@ export default {
     // username: "",
     usernames: [],
     publications: {},
+    allPublications: {},
     isAuth: localStorage.getItem('token') ? true : false,
     token: localStorage.getItem('token') ? localStorage.getItem('token') : undefined
   },
@@ -57,6 +58,9 @@ export default {
     },
     setPublications(state, publications) {
       state.publications = publications
+    },
+    setAllPublications(state, allPublications) {
+      state.allPublications = allPublications
     },
     resetState(state) {
       state.message = "";
@@ -147,9 +151,10 @@ export default {
     },
     async sendPublication({ commit, state }, message) {
       if (state.isAuth) {
+        console.log(state.findUser)
         try {
           const response = await axios.post('http://localhost:8080/api/publication', {
-            username: state.user.username,
+            username: state.findUser.username,
             message: message
           }, {
             headers: {
@@ -219,6 +224,24 @@ export default {
         }
       }
     },
+    async doAllPublicactions({ commit, state }) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/getAllPublications`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          const publicactions = response.data.publications;
+          console.log(publicactions)
+
+          commit('setAllPublications', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+        }
+      }
+    },
     async doFollowing({ commit, state }, { username, finduser }) {
       if (state.isAuth) {
         try {
@@ -267,7 +290,7 @@ export default {
           });
           console.log(response.data)
           commit('setMessage', response.data)
-          
+
         } catch (error) {
           // console.log(JSON.parse(error.response.request.responseText))
           commit('setMessage', JSON.parse(error.response.request.responseText))

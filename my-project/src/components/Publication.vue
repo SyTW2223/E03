@@ -1,35 +1,11 @@
 <template>
-  <!-- <div>
-    <div id="publicationCarousel" class="carousel slide ">
-      <div class="carousel-inner">
-        <div v-for="(publication, index) in publicationData" :key="publication.id" :class="['carousel-item', { active: index === 0 }]">
-          <div class="publication">
-            <div class="date">{{ formatPublicationDate(publication.date) }}</div>
-            <div class="user-info">
-              <img :src="publication.avatar" class="avatar" alt="Avatar">
-              <span class="handle">{{ publication.handle }}</span>
-            </div>
-            <div class="content">{{ publication.message }}</div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-controls ">
-        <button class="carousel-control-prev" type="button" data-bs-target="#publicationCarousel" data-bs-slide="prev">
-          <span class="fs-2 bi-arrow-left-square" style="color: #007c00;" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next " type="button" data-bs-target="#publicationCarousel" data-bs-slide="next">
-          <span class="fs-2 bi-arrow-right-square" style="color: #007c00;" aria-hidden="true"></span>
-          <i class="bi bi-arrow-left-square"></i>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </div>
-  </div> -->
   <div>
     <div class="publication" v-for="(publication, index) in sortedPublications" :key="index">
-      <div class="date">{{ formatPublicationDate(publication.date) }}</div>
-      <div class="content">{{ publication.message }}</div>
+      <div class="user-info">
+          <div class="username">@{{ publication.username }}</div>
+          <div class="date">{{ formatPublicationDate(publication.date) }}</div>
+        </div>
+        <div class="content">{{ publication.message }}</div>
     </div>
   </div>
 </template>
@@ -68,9 +44,15 @@ export default {
   },
   methods: {
     formatPublicationDate(date) {
-      const formattedDate = new Date(date).toISOString().replace('T', ' ').slice(0, 19);
-      return formattedDate;
-    },
+    const parsedDate = new Date(date);
+    
+    if (isNaN(parsedDate.getTime())) {
+      return '';
+    }
+    
+    const formattedDate = parsedDate.toISOString().replace('T', ' ').slice(0, 19);
+    return formattedDate;
+  },
   },
 };
 </script>
@@ -86,20 +68,14 @@ export default {
 
 .user-info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
+.username {
+  font-weight: bold;
 }
-
-.handle {
-  color: #657786;
-} 
 
 .content {
   font-size: 14px;
@@ -110,51 +86,5 @@ export default {
   color: #657786;
   font-size: 12px;
   text-align: right;
-}
-
-.carousel {
-  width: 100%;
-}
-
-.carousel-inner {
-  height: 100%;
-}
-
-.carousel-item {
-  height: 100%;
-}
-
-.carousel-controls {
-  background-color: rgb(136, 11, 11);
-  position: absolute;
-  bottom: 0%;
-  left: 40%;
-  right: 40%;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-  width: auto;
-  background-color: rgb(82, 34, 34);
-}
-
-.carousel-control-prev {
-  margin-right: 10px; /* Ajusta el margen entre las flechas */
-}
-
-.carousel-control-next {
-  margin-left: 10px; /* Ajusta el margen entre las flechas */
-}
-
-.carousel-control-next-icon {
-  /* background-color: #5aaf29; */
-  border-radius: 10%;
-  fill: #007c00;
-}
-.carousel-control-prev-icon {
-  /* background-color: #5aaf29; */
-  border-radius: 10%;
-  /* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");} */
-  /* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%6db3b7' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E")  */
 }
 </style>

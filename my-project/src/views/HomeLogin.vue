@@ -45,12 +45,10 @@
                         <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">{{ users }}</router-link>
                       </div>
                     </div>
-                    <!-- <div class="list-group">
+                    <div class="list-group">
                       <publication></publication>
-                    </div> -->
+                    </div>
                   </div>
-                  
-                  
                 </div>
               </div>
             </div>
@@ -63,15 +61,13 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
-import publication from "../components/Publication.vue";
-import RecommendedUsers from "../components/RecommendedUsers.vue";
+import publication from "../components/AllPublications.vue";
 
 export default {
   components: {
     Navbar,
     Sidebar,
     publication,
-    RecommendedUsers,
   },
   data() {
     return {

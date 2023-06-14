@@ -6,6 +6,7 @@ import checkfollow from "./routes/checkfollow.js"
 import following from "./routes/following.js"
 import loginRouter from "./routes/login.js"
 import publicationRouter from "./routes/publication.js"
+import allpublication from "./routes/allPubliactions.js"
 import registerRouter from "./routes/register.js"
 import searchUserRouter from "./routes/searchUser.js"
 import showPublication from "./routes/showPublication.js"
@@ -49,8 +50,18 @@ const createLog = (req, res, next) => {
 app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
-  const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
-  console.log(header)
+  ////////////////////////////////////////// MEJORAR //////////////////////////////////////
+  let header = {}
+  if ((typeof req.headers.authorization === 'undefined') && (req.method === 'POST')){
+    header = req.body.headers.authorization
+  } else if (req.method === 'POST') {
+    header = req.headers.authorization
+  } else {
+    header = req.header('authorization')
+  }
+  // console.log('header', header)
+  ////////////////////////////////////////// MEJORAR //////////////////////////////////////
+  // const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]
@@ -67,12 +78,13 @@ const verifyToken = async (req, res, next) => {
   }
 }
 
+
 app.use('/api', loginRouter, registerRouter)
 app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-app.use('/api', unfollowing, checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
+app.use('/api', unfollowing, allpublication, checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)

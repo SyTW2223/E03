@@ -106,6 +106,7 @@ export default {
         await this.$store.dispatch('auth/doGetUser', user)
         this.userInfo = this.$store.state.auth.findUser
       }
+      console.log(this.$store.state.auth.findUser)
 
       // if (storedUserInfo) {
       //   this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
@@ -121,8 +122,9 @@ export default {
     },
     // async createpublication() {
     //   // Lógica para crear un nuevo publication
+    //   console.log(this.newpublicationContent)
     //   await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
-    // }
+    // },
     async createpublication() {
       if (this.newpublicationContent.trim() === '') {
         this.showEmptyAlert = true;
