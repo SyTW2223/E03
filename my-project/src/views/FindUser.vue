@@ -11,10 +11,23 @@
             </div>
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
-              <!-- <h5 class="card-title">@{{ this.userInfo.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p> -->
-              <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
+              <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
+              <p class="card-text">Seguidores: {{ this.userInfoFront.follows }}</p>
+              <p class="card-text">Siguiendo: {{ this.userInfoFront.followers }}</p>
+              <button class="btn btn-primary" @click="followUser">{{ checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </symbol>
+              </svg>
+
+              <div class="alert alert-danger d-flex align-items-center d-flex justify-content-center" v-if="message & checkFollow" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                <div>
+                  <!-- "Aqui el error" -->
+                  {{ this.message }}
+                </div>
+              </div>
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -31,21 +44,8 @@
         </div>
         <div class="col-md-9">
           <div class="bigcard">
-
-            <!-- Formulario para crear nuevos tweets -->
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Nuevo Tweet</h5>
-                <form @submit.prevent="createTweet">
-                  <div class="form-group">
-                    <textarea class="form-control" rows="3" v-model="newTweetContent"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Publicar</button>
-                </form>
-              </div>
-            </div>
-            <!-- Sección de tweets publicados -->
-            <Tweet/>
+            <!-- Sección de publications publicados -->
+            <publication/>
           </div>
         </div>
       </div>
@@ -55,35 +55,41 @@
 
 <script>
 import { mapState } from 'vuex'; // Importa la función mapState de vuex
-import Tweet from "../components/Tweet.vue";
+import publication from "../components/Publication.vue";
 import Navbar from "../components/Navbar.vue";
 
 export default {
   components: {
     Navbar,
-    Tweet,
+    publication,
   },
   computed: {
-    ...mapState('auth', {
-      userInfo: state => state.user
-    }),
-    // logUserInfo() {
-    //   // console.log(this.userInfo);
-    //   // console.log(this.userInfo.name);
-    //   return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
+    // ...mapState('auth', ['findUser']), // Importa la propiedad findUser del módulo auth
+    // followers() {
+    //   if (this.findUser && this.findUser.followersUser) {
+    //     return this.findUser.followersUser.length; // Retorna la cantidad de seguidores
+    //   }
+    //   return 0;
     // },
-    following() {
-      // Simulación del estado de seguir o dejar de seguir al usuario
-      return false;
-    }
+    // following() {
+    //   if (this.findUser && this.findUser.followsUser) {
+    //     return this.findUser.followsUser.length; // Retorna la cantidad de usuarios seguidos
+    //   }
+    //   return 0;
+    // }
   },
   data() {
     return {
-      newTweetContent: '',
-      userinfo: ''
+      newpublicationContent: '',
+      userInfoFront: {},
+      message: '',
+      user: '',
+      userfind: '',
+      checkFollow: false
+
     };
   },
-  created() {
+  async created() {
     if (localStorage.getItem('token')) {
 
       const storedUserInfo = localStorage.getItem('user');
@@ -91,25 +97,61 @@ export default {
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
-      const finduser = this.$route.params.username;
+      const finduser = this.$route.params.userfind;
       // console.log(finduser)
 
       if (finduser) {
-        this.$store.dispatch('auth/doGetUser', finduser)
-        const algo = this.$store.state.auth.findUser.email /////////////////// No funcionaaaaaa
-        console.log(this.$store.state.auth)
-        console.log(this.$store.state.auth.findUser)
-        console.log(algo)
+        await this.$store.dispatch('auth/doGetUser', finduser)
+        this.userInfoFront = this.$store.state.auth.findUser
       }
+
+      this.user = this.$route.params.username;
+      this.userfind = this.$route.params.userfind;
+
+      await this.$store.dispatch('auth/doCheckFollow', { username: this.user, finduser: this.userfind })
+
+      console.log(this.$store.state.auth.message)
+      if (!this.$store.state.auth.message.error) {
+        this.checkFollow = true
+        this.message = this.$store.state.auth.message.error
+      } else {
+        this.checkFollow = false
+        this.message = this.$store.state.auth.message.message
+      }
+      console.log(this.checkFollow)
     }
   },
   methods: {
-    followUser() {
+    async followUser() {
       // Lógica para seguir o dejar de seguir al usuario
+      if (!this.checkFollow) {
+        // Lógica para seguir al usuario
+        await this.$store.dispatch('auth/doFollowing', { username: this.user, finduser: this.userfind })
+        this.checkFollow = true
+
+        // Incrementar el número de usuarios seguidos
+        this.userInfoFront.follows++;
+      } else {
+        // Lógica para dejar de seguir al usuario
+        await this.unfollowUser();
+      }
+
+      this.message = this.$store.state.auth.message
     },
-    async createTweet() {
-      // Lógica para crear un nuevo tweet
-      await this.$store.dispatch('auth/sendTweet', this.newTweetContent)
+    async unfollowUser() {
+      // Lógica para seguir o dejar de seguir al usuario
+      await this.$store.dispatch('auth/doUnfollowing', { username: this.user, finduser: this.userfind })
+
+      this.message = this.$store.state.auth.message
+
+      this.checkFollow = false; // Actualiza checkFollow a true
+
+      // Decrementar el número de usuarios seguidos
+      this.userInfoFront.follows--;
+    },
+    async createpublication() {
+      // Lógica para crear un nuevo publication
+      await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
     }
   },
 };

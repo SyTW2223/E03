@@ -24,7 +24,7 @@
             <div class="container">
               <div>
                 <div class="row" style="height: 100%;">
-                  <div class="col-lg-7 pr-lg-4 custom-column column-margin">
+                  <div class="col-lg-12 pr-lg-4 custom-column column-margin">
                     <!-- Columna izquierda (mayor) -->
                     <div class="d-flex justify-content-center mb-3">
                       <!-- Buscador -->
@@ -32,28 +32,14 @@
                     </div>
 
                     <div class="list-group">
-                      <!-- Mostrar lista de usuarios -->
-                      <!-- <div v-if="this.usernames.length == 0" class="list-group-item">
-                        No se encontraron usuarios.
-                      </div> -->
-                      <!-- <div>
-                        {{ this.username }}
-                      </div> -->
-                      <div v-for="user in usernames" :key="user" class="list-group-item">
-                        <!-- CAMBIAR, CREARIA OTRO COMPONENTE PARA EL PERFIL DE OTROS USUARIOS -->
-                        <router-link :to="`/userProfile/${user}`" class="custom-link">{{ user }}</router-link>
+                      <div v-for="users in usernames" :key="users" class="list-group-item">
+                        <router-link v-if="ownuser !== users" :to="`/findUser/${ownuser}/${users}`" class="custom-link">{{ users }}</router-link>
+                        <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">{{ users }}</router-link>
                       </div>
                     </div>
-                    <!-- <div class="list-group">
-                      <Tweet></Tweet>
-                    </div> -->
-                  </div>
-                  
-                  <div class="col-lg-4 custom-column column-margin">
-                    <!-- Columna derecha -->
-                    <h3>Recomendaciones</h3>
-                      <RecommendedUsers/>
-                      <!-- Recomendaciones de usuarios -->
+                    <div class="list-group">
+                      <publication></publication>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -67,23 +53,21 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
-import Tweet from "../components/Tweet.vue";
-import RecommendedUsers from "../components/RecommendedUsers.vue";
+import publication from "../components/AllPublications.vue";
 
 export default {
   components: {
     Navbar,
     Sidebar,
-    Tweet,
-    RecommendedUsers,
+    publication,
   },
   data() {
     return {
-      tweets: [],
+      publications: [],
       findUsername: '',
       sidebarActive: false,
       usernames: [],
-      prub: [1, 2, 3]
+      ownuser: this.$store.state.auth.user.username
     };
   },
   created() {
@@ -94,6 +78,7 @@ export default {
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
+      // console.log(this.ownuser)
     }
   },
   computed: {

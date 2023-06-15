@@ -31,18 +31,16 @@
                     <input type="text" class="form-control" placeholder="Buscar">
                   </div>
                   <div class="list-group">
-                    <!-- Lista de tweets -->
+                    <!-- Lista de publications -->
                     <!-- <a href="#" class="list-group-item list-group-item-action">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">@usuario1</h5>
-                        <small>Fecha del tweet</small>
+                        <small>Fecha del publication</small>
                       </div>
-                      <p class="mb-1">Contenido del tweet...</p>
+                      <p class="mb-1">Contenido del publication...</p>
                       <small>Enlace o información adicional</small>
                     </a> -->
-                    <!-- Agrega más tweets aquí -->
-                    
-                    <Tweet></Tweet>
+                    <!-- Agrega más publications aquí -->
                     
                   </div>
                 </div>
@@ -66,19 +64,19 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
-import Tweet from "../components/Tweet.vue";
+import publication from "../components/Publication.vue";
 import RecommendedUsers from "../components/RecommendedUsers.vue";
 
 export default {
   components: {
     Navbar,
     Sidebar,
-    Tweet,
+    publication,
     RecommendedUsers,
   },
   data() {
     return {
-      tweets: [],
+      publications: [],
       sidebarActive: false,
     };
   },

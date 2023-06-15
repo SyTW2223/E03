@@ -1,13 +1,25 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const tweetSchema = new mongoose.Schema({
+const publicationSchema = new mongoose.Schema({
+  username: {
+    trim: true,
+    type: String
+  },
   message: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: Date,
     default: Date.now,
+  },
+});
+
+const followsUserSchema = new mongoose.Schema({
+  username: {
+    required: true,
+    trim: true,
+    type: String
   },
 });
 
@@ -36,7 +48,11 @@ const dataSchema = new mongoose.Schema({
   followers: {
     type: Number,
   },
-  tweets: [tweetSchema],
+  publications: [publicationSchema],
+
+  followsUser: [followsUserSchema],
+
+  followersUser: [followsUserSchema],
 })
 
 export default mongoose.model('Users', dataSchema);

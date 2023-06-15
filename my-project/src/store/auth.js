@@ -1,8 +1,8 @@
 // Importamos los módulos necesarios
-import axios from 'axios' // para enviar solicitudes HTTP
-import Vuex from 'vuex' // para manejar el estado de la aplicación
-import Vue from 'vue'
-import router from '../router/index'
+import axios from 'axios'; // para enviar solicitudes HTTP
+import Vue from 'vue';
+import Vuex from 'vuex'; // para manejar el estado de la aplicación
+import router from '../router/index';
 
 
 // Usamos Vuex
@@ -18,10 +18,12 @@ export default {
     email: "", // para almacenar el correo electrónico del usuario
     password: "", // para almacenar la contraseña del usuario
     user: "",
-    findUser: "",
+    following: "",
+    findUser: {},
     // username: "",
     usernames: [],
-    tweets: "",
+    publications: {},
+    allPublications: {},
     isAuth: localStorage.getItem('token') ? true : false,
     token: localStorage.getItem('token') ? localStorage.getItem('token') : undefined
   },
@@ -36,9 +38,6 @@ export default {
     setName(state, name) {
       state.name = name // actualizamos la contraseña
     },
-    // setUsername(state, username) {
-    //   state.username = username // actualizamos la contraseña
-    // },
     setUsernames(state, usernames) {
       state.usernames = usernames // actualizamos la contraseña
     },
@@ -51,11 +50,17 @@ export default {
     setFindUser(state, findUser) {
       state.findUser = findUser; // Actualiza el estado con la información del usuario
     },
+    setFollowing(state, following) {
+      state.following = following; // Actualiza el estado con la información del usuario
+    },
     setMessage(state, message) {
       state.message = message // actualizamos el mensaje del servidor
     },
-    setTweets(state, tweets) {
-      state.tweets = tweets
+    setPublications(state, publications) {
+      state.publications = publications
+    },
+    setAllPublications(state, allPublications) {
+      state.allPublications = allPublications
     },
     resetState(state) {
       state.message = "";
@@ -144,11 +149,12 @@ export default {
       localStorage.removeItem('user');
       router.push('/');
     },
-    async sendTweet ({commit, state}, message) {
+    async sendPublication({ commit, state }, message) {
       if (state.isAuth) {
+        console.log(state.findUser)
         try {
-          const response = await axios.post('http://localhost:8080/api/tweet', {
-            username: state.user.username,
+          const response = await axios.post('http://localhost:8080/api/publication', {
+            username: state.findUser.username,
             message: message
           }, {
             headers: {
@@ -156,12 +162,12 @@ export default {
             }
           })
           console.log(response)
-        } catch(error) {
+        } catch (error) {
           console.log(error)
         }
       }
     },
-    async doSearchUser({commit, state}, usernameSearch) {
+    async doSearchUser({ commit, state }, usernameSearch) {
       if (state.isAuth) {
         try {
           const response = await axios.get(`http://localhost:8080/api/searchUser/${usernameSearch}`, {
@@ -186,9 +192,8 @@ export default {
               authorization: 'Bearer ' + state.token
             }
           });
-      
           const user = response.data.user;
-          console.log(user.name)
+          //console.log(user.name)
           commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
           // console.log('Find user:', state.findUser);
 
@@ -197,10 +202,123 @@ export default {
         } catch (error) {
           commit('setMessage', JSON.parse(error.response.request.responseText).error)
           // imprimimos el mensaje de error en la consola
-          console.log(JSON.parse(error.response.request.responseText).error)
+          //console.log(JSON.parse(error.response.request.responseText).error)
           // console.log(error);
         }
       }
     },
+    async doPublicactions({ commit, state }, username) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/getPublications/${username}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          const publicactions = response.data.publications;
+
+          commit('setPublications', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+        }
+      }
+    },
+    async doDeletePub({ commit, state }, publicationId) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.delete(`http://localhost:8080/api/deletePub/${publicationId}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            },
+            data: {
+              username: state.findUser.username
+            }
+          });
+
+          const publicactions = response.data.message;
+          console.log(publicactions);
+          commit('setMessage', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+    async doAllPublicactions({ commit, state }) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/getAllPublications`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          const publicactions = response.data.publications;
+          console.log(publicactions)
+
+          commit('setAllPublications', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+        }
+      }
+    },
+    async doFollowing({ commit, state }, { username, finduser }) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.post(`http://localhost:8080/api/following/${username}/${finduser}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          console.log(response)
+          commit('setMessage', response)
+
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+          console.log(JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+    async doUnfollowing({ commit, state }, { username, finduser }) {
+      if (state.isAuth) {
+        try {
+          console.log(username, finduser)
+          const response = await axios.post(`http://localhost:8080/api/unfollowing/${username}/${finduser}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          console.log(response)
+          commit('setMessage', response)
+
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error)
+
+          console.log(JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+    async doCheckFollow({ commit, state }, { username, finduser }) {
+      if (state.isAuth) {
+        try {
+          // console.log(username, finduser)
+          const response = await axios.post(`http://localhost:8080/api/checkfollowing/${username}/${finduser}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            }
+          });
+          console.log(response.data)
+          commit('setMessage', response.data)
+
+        } catch (error) {
+          // console.log(JSON.parse(error.response.request.responseText))
+          commit('setMessage', JSON.parse(error.response.request.responseText))
+
+          console.log(JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
+
   }
 }

@@ -1,29 +1,35 @@
 <template>
-  <div>
-    <div id="tweetCarousel" class="carousel slide ">
+  <!-- <div>
+    <div id="publicationCarousel" class="carousel slide ">
       <div class="carousel-inner">
-        <div v-for="tweet in tweetData" :key="tweet.id" :class="['carousel-item', { active: tweet.id === 1 }]">
-          <div class="tweet">
-            <div class="date">{{ tweet.date }}</div>
+        <div v-for="(publication, index) in publicationData" :key="publication.id" :class="['carousel-item', { active: index === 0 }]">
+          <div class="publication">
+            <div class="date">{{ formatPublicationDate(publication.date) }}</div>
             <div class="user-info">
-              <img :src="tweet.avatar" class="avatar" alt="Avatar">
-              <span class="handle">{{ tweet.handle }}</span>
+              <img :src="publication.avatar" class="avatar" alt="Avatar">
+              <span class="handle">{{ publication.handle }}</span>
             </div>
-            <div class="content">{{ tweet.content }}</div>
+            <div class="content">{{ publication.message }}</div>
           </div>
         </div>
       </div>
       <div class="carousel-controls ">
-        <button class="carousel-control-prev" type="button" data-bs-target="#tweetCarousel" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#publicationCarousel" data-bs-slide="prev">
           <span class="fs-2 bi-arrow-left-square" style="color: #007c00;" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next " type="button" data-bs-target="#tweetCarousel" data-bs-slide="next">
+        <button class="carousel-control-next " type="button" data-bs-target="#publicationCarousel" data-bs-slide="next">
           <span class="fs-2 bi-arrow-right-square" style="color: #007c00;" aria-hidden="true"></span>
-          <!-- <i class="bi bi-arrow-left-square"></i> -->
+          <i class="bi bi-arrow-left-square"></i>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+    </div>
+  </div> -->
+  <div>
+    <div class="publication" v-for="(publication, index) in sortedPublications" :key="index">
+      <div class="date">{{ formatPublicationDate(publication.date) }}</div>
+      <div class="content">{{ publication.message }}</div>
     </div>
   </div>
 </template>
@@ -33,56 +39,35 @@ export default {
   data() {
     return {
       username: '',
-      
-      tweetData: [
-        // {
-        //   id: 1,
-        //   avatar: 'ruta/al/avatar.png',
-        //   handle: '@usuario',
-        //   content: 'Contenido del tweet...',
-        //   date: 'Fecha del tweet',
-        // },
-        // {
-        //   id: 2,
-        //   avatar: 'ruta/al/avatar.png',
-        //   handle: '@usuario2',
-        //   content: 'Contenido del tweet...',
-        //   date: 'Fecha del tweet',
-        // },
-      ],
+      publicationData: [],
     };
     
   },
-  created () {
-    // this.$store.dispatch('auth/sendTweet', {
-    //   username: this.username
-    // })
-    // const userData = JSON.parse(localStorage.getItem('user')); // Obtener el objeto JSON del usuario desde el localStorage
-    // if (userData) {
-    //   this.username = userData.username; // Obtener el nombre de usuario del objeto userData
-    //   this.fetchTweets(); // Llamar al método para obtener los tweets del usuario
-    // }
-    // console.log(this.username)
+  async created () {
+    const user = this.$route.params.username;
+
+    await this.$store.dispatch('auth/doPublicactions', user)
+
+    this.publicationData = this.$store.state.auth.publications
+  },
+  computed: {
+    sortedPublications() {
+      return this.publicationData.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+    },
   },
   methods: {
-    // async fetchTweets() {
-    //   try {
-    //     const response = await this.$store.dispatch('auth/sendTweet', {
-    //       username: this.username,
-    //     });
-    //     // this.tweetData = response.data; // Asignar los tweets obtenidos desde el store a la variable tweetData
-    //     this.tweetData = this.$store.state.auth.message
-    //     console.log(this.tweetData)
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+    formatPublicationDate(date) {
+      const formattedDate = new Date(date).toISOString().replace('T', ' ').slice(0, 19);
+      return formattedDate;
+    },
   },
 };
 </script>
 
 <style scoped>
-.tweet {
+.publication {
   background-color: #c2c2c267;
   border-radius: 10px;
   padding: 15px;
