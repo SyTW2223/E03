@@ -193,17 +193,13 @@ export default {
             }
           });
           const user = response.data.user;
-          //console.log(user.name)
-          commit('setFindUser', user); // Actualiza el estado con el usuario obtenido
+          // Actualiza el estado con el usuario obtenido
+
+          commit('setFindUser', user);
           // console.log('Find user:', state.findUser);
-
           // localStorage.setItem('findUser', JSON.stringify(user));
-
         } catch (error) {
           commit('setMessage', JSON.parse(error.response.request.responseText).error)
-          // imprimimos el mensaje de error en la consola
-          //console.log(JSON.parse(error.response.request.responseText).error)
-          // console.log(error);
         }
       }
     },
@@ -319,6 +315,5 @@ export default {
         }
       }
     },
-
   }
 }

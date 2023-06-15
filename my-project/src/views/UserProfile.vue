@@ -11,9 +11,9 @@
             </div>
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
-              <h5 class="card-title">@{{ this.userInfo.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p>
+              <h5 class="card-title" v-if="this.userInfo">@{{ this.userInfo.username }}</h5>
+              <p class="card-text" v-if="this.userInfo">Seguidores: {{ this.userInfo.followersArray.length }}</p>
+              <p class="card-text" v-if="this.userInfo">Siguiendo: {{ this.userInfo.followsArray.length }}</p>
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -77,7 +77,7 @@ export default {
       newpublicationContent: '',
       showAlert: false,
       showEmptyAlert: false,
-      userInfo: {}
+      userInfo: null
     };
   },
   async created() {
@@ -117,7 +117,7 @@ export default {
 };
 </script>
 
-  
+
 <style>
 
 .card {
