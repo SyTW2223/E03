@@ -224,6 +224,26 @@ export default {
         }
       }
     },
+    async doDeletePub({ commit, state }, publicationId) {
+      if (state.isAuth) {
+        try {
+          const response = await axios.delete(`http://localhost:8080/api/deletePub/${publicationId}`, {
+            headers: {
+              authorization: 'Bearer ' + state.token
+            },
+            data: {
+              username: state.findUser.username
+            }
+          });
+
+          const publicactions = response.data.message;
+          console.log(publicactions);
+          commit('setMessage', publicactions);
+        } catch (error) {
+          commit('setMessage', JSON.parse(error.response.request.responseText).error);
+        }
+      }
+    },
     async doAllPublicactions({ commit, state }) {
       if (state.isAuth) {
         try {

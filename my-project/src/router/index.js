@@ -24,10 +24,6 @@ const routes = [
     component: HomeLogin,
     meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
   },
-  // {
-  //   path: '/userProfile',
-  //   component: UserProfile
-  // }
   {
     path: '/userProfile/:username', // Utilizamos un parámetro dinámico ":username"
     component: UserProfile,

@@ -14,7 +14,6 @@
               <h5 class="card-title">@{{ this.userInfo.username }}</h5>
               <p class="card-text">Seguidores: {{ this.userInfo.followers }}</p>
               <p class="card-text">Siguiendo: {{ this.userInfo.follows }}</p>
-              <!-- <button class="btn btn-primary" @click="followUser">{{ following ? 'Dejar de seguir' : 'Seguir' }}</button> -->
             </div>
           </div>
           <!-- Lista de seguidores -->
@@ -73,20 +72,6 @@ export default {
     Navbar,
     publication,
   },
-  computed: {
-    // ...mapState('auth', {
-    //   userInfo: state => state.user
-    // }),
-    // logUserInfo() {
-    //   // console.log(this.userInfo);
-    //   // console.log(this.userInfo.name);
-    //   return this.userInfo; // Opcional: puedes devolver userInfo si lo necesitas en el template
-    // },
-    following() {
-      // Simulación del estado de seguir o dejar de seguir al usuario
-      return false;
-    }
-  },
   data() {
     return {
       newpublicationContent: '',
@@ -98,8 +83,6 @@ export default {
   async created() {
     if (localStorage.getItem('token')) {
 
-      // const storedUserInfo = localStorage.getItem('user');
-
       const user = this.$route.params.username
 
       if (user) {
@@ -107,24 +90,9 @@ export default {
         this.userInfo = this.$store.state.auth.findUser
       }
       console.log(this.$store.state.auth.findUser)
-
-      // if (storedUserInfo) {
-      //   this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
-      //   this.userInfo = this.$store.state.auth.user
-      //   console.log(this.userInfo.followers)
-      //   console.log(this.userInfo.follows)
-      // }
     }
   },
   methods: {
-    followUser() {
-      // Lógica para seguir o dejar de seguir al usuario
-    },
-    // async createpublication() {
-    //   // Lógica para crear un nuevo publication
-    //   console.log(this.newpublicationContent)
-    //   await this.$store.dispatch('auth/sendPublication', this.newpublicationContent)
-    // },
     async createpublication() {
       if (this.newpublicationContent.trim() === '') {
         this.showEmptyAlert = true;

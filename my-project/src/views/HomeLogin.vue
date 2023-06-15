@@ -32,15 +32,7 @@
                     </div>
 
                     <div class="list-group">
-                      <!-- Mostrar lista de usuarios -->
-                      <!-- <div v-if="this.usernames.length == 0" class="list-group-item">
-                        No se encontraron usuarios.
-                      </div> -->
-                      <!-- <div>
-                        {{ this.username }}
-                      </div> -->
                       <div v-for="users in usernames" :key="users" class="list-group-item">
-                        <!-- CAMBIAR, CREARIA OTRO COMPONENTE PARA EL PERFIL DE OTROS USUARIOS -->
                         <router-link v-if="ownuser !== users" :to="`/findUser/${ownuser}/${users}`" class="custom-link">{{ users }}</router-link>
                         <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">{{ users }}</router-link>
                       </div>

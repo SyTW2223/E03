@@ -2,13 +2,12 @@ import mongoose from 'mongoose';
 
 const publicationSchema = new mongoose.Schema({
   username: {
-    unique: true,
     trim: true,
     type: String
   },
   message: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: Date,

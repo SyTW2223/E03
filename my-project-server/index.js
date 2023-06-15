@@ -11,6 +11,7 @@ import registerRouter from "./routes/register.js"
 import searchUserRouter from "./routes/searchUser.js"
 import showPublication from "./routes/showPublication.js"
 import unfollowing from "./routes/unfollowing.js"
+import deletePub from "./routes/deletePub.js"
 import userRouter from "./routes/user.js"
 
 import mongoose from 'mongoose'
@@ -59,7 +60,6 @@ const verifyToken = async (req, res, next) => {
   } else {
     header = req.header('authorization')
   }
-  // console.log('header', header)
   ////////////////////////////////////////// MEJORAR //////////////////////////////////////
   // const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
   if (typeof header !== 'undefined') {
@@ -84,7 +84,7 @@ app.use(verifyToken)
 
 //El orden en el que se pongan los modulos, importa
 // OJO a la hora de colocarlos
-app.use('/api', unfollowing, allpublication, checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
+app.use('/api', deletePub, unfollowing, allpublication, checkfollow, showPublication, publicationRouter, searchUserRouter, following, userRouter, router)
 
 app.listen(process.env.PORT, () => {
   console.log('The API is listening at port', process.env.PORT)
