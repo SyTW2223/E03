@@ -63,21 +63,6 @@ export default {
     Navbar,
     publication,
   },
-  computed: {
-    // ...mapState('auth', ['findUser']), // Importa la propiedad findUser del módulo auth
-    // followers() {
-    //   if (this.findUser && this.findUser.followersUser) {
-    //     return this.findUser.followersUser.length; // Retorna la cantidad de seguidores
-    //   }
-    //   return 0;
-    // },
-    // following() {
-    //   if (this.findUser && this.findUser.followsUser) {
-    //     return this.findUser.followsUser.length; // Retorna la cantidad de usuarios seguidos
-    //   }
-    //   return 0;
-    // }
-  },
   data() {
     return {
       newpublicationContent: '',
@@ -157,7 +142,7 @@ export default {
 };
 </script>
 
-  
+
 <style>
 
 .card {
