@@ -50,8 +50,6 @@ router.post('/login', async (req, res) => {
         name: respuesta.name,
         email: respuesta.email,
         username: respuesta.username,
-        follows: respuesta.follows,
-        followers: respuesta.followers
       }
     })
   } catch (error) {

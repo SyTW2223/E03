@@ -16,7 +16,7 @@ router.post('/checkfollowing/:username/:finduser', async (req, res) => {
     const usernameAnswer = await User.findOne({ username: user }).exec();
     const finduserAnswer = await User.findOne({ username: userfollow }).exec();
 
-    const checkUser = await User.findOne({ "followsUser.username": userfollow }).exec();
+    const checkUser = await User.findOne({ "follows.username": userfollow }).exec();
 
     // console.log('hi', finduserAnswer,)
     // console.log('cehc', checkUser,)

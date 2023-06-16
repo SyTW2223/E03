@@ -17,7 +17,7 @@ router.post('/following/:username/:finduser', async (req, res) => {
     const finduserAnswer = await User.findOne({ username: userfollow }).exec();
     // console.log()
 
-    const checkUser = await User.findOne({ "followsUser.username": userfollow }).exec();
+    const checkUser = await User.findOne({ "follows.username": userfollow }).exec();
 
     console.log('hi', finduserAnswer)
     // console.log('cehc', checkUser,)
@@ -30,19 +30,19 @@ router.post('/following/:username/:finduser', async (req, res) => {
       return res.status(400).json({ error: "Usuario ya siguiendo" });
     }
 
-    usernameAnswer.followsUser.push({
+    usernameAnswer.follows.push({
       username: userfollow
     });
 
-    finduserAnswer.followersUser.push({
+    finduserAnswer.followers.push({
       username: user
     });
 
-    // Incrementar propiedad follows del usuario username
-    usernameAnswer.followers += 1;
+    // // Incrementar propiedad follows del usuario username
+    // usernameAnswer.followers += 1;
 
-    // Incrementar propiedad followers del usuario finduser
-    finduserAnswer.follows += 1;
+    // // Incrementar propiedad followers del usuario finduser
+    // finduserAnswer.follows += 1;
 
     await usernameAnswer.save();
     await finduserAnswer.save();

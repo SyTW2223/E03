@@ -39,8 +39,8 @@ router.post('/register', async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: password,
-    follows: 0,
-    followers: 0
+    follows: [],
+    followers: []
   })
 
   //Tratamos de guardar el usuario en la BBDD

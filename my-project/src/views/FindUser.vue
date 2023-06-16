@@ -12,8 +12,8 @@
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfoFront.follows }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfoFront.followers }}</p>
+              <p class="card-text">Seguidores: {{ this.followers  }}</p>
+              <p class="card-text">Siguiendo: {{ this.follows }}</p>
               <button class="btn btn-primary" @click="followUser">{{ checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
               <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -70,7 +70,9 @@ export default {
       message: '',
       user: '',
       userfind: '',
-      checkFollow: false
+      checkFollow: false,
+      follows: 0,
+      followers: 0
 
     };
   },
@@ -88,6 +90,8 @@ export default {
       if (finduser) {
         await this.$store.dispatch('auth/doGetUser', finduser)
         this.userInfoFront = this.$store.state.auth.findUser
+        this.follows = this.userInfoFront.follows.length
+        this.followers = this.userInfoFront.followers.length
       }
 
       this.user = this.$route.params.username;
@@ -115,7 +119,7 @@ export default {
         this.checkFollow = true
 
         // Incrementar el número de usuarios seguidos
-        this.userInfoFront.follows++;
+        this.followers++;
       } else {
         // Lógica para dejar de seguir al usuario
         await this.unfollowUser();
@@ -132,7 +136,7 @@ export default {
       this.checkFollow = false; // Actualiza checkFollow a true
 
       // Decrementar el número de usuarios seguidos
-      this.userInfoFront.follows--;
+      this.followers--;
     },
     async createpublication() {
       // Lógica para crear un nuevo publication
