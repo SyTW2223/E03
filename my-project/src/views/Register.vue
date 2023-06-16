@@ -3,23 +3,26 @@
     <Navbar/>
     <div id="register">
       <div id="description">
-        <h1>Register</h1>
-        <a href= 'http://localhost:3000/#/login'>Si ya tienes una cuenta, inicia sesión<p><small></small></p></a>
+        <h1>Registro</h1>
+        <p>Si ya tienes cuenta</p>
+        <router-link to="/login">
+          <small>Inicia sesión</small>
+        </router-link>
       </div>
       <div id="form">
         <form @submit.prevent="doRegister">
-          <label for="name">Name</label>
-          <input type="text" id="name" v-model="name" placeholder="Elon Musk" autocomplete="off">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" v-model="name" placeholder="Elon Musk" autocomplete="off" required>
 
-          <label for="name">Username</label>
-          <input type="text" id="username" v-model="username" placeholder="ElonM123" autocomplete="off">
+          <label for="username">Nombre de usuario</label>
+          <input type="text" id="username" v-model="username" placeholder="ElonM123" autocomplete="off" required>
 
           <label for="email">Email</label>
-          <input type="text" id="email" v-model="email" placeholder="elon@musk.io" autocomplete="off">
+          <input type="email" id="email" v-model="email" placeholder="elon@musk.io" autocomplete="off" required>
 
-          <label for="password">Password</label>
+          <label for="password">Contraseña</label>
           <i class="fas" @click="hidePassword = !hidePassword"></i>
-          <input type="password" id="password" v-model="password" placeholder="**********">
+          <input type="password" id="password" v-model="password" placeholder="**********" required>
 
           <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -45,7 +48,7 @@
             </div>
           </div>
 
-          <button type="button" @click="doRegister">Registro</button>
+          <button type="submit">Registro</button>
           <br>
         </form>
       </div>
@@ -78,15 +81,21 @@ export default {
       this.$router.push('/homeLogin');
     }
   },
-  // cada vez que se recarge la pagina se comprueba si el usario esta logueado
-  created() {
-    if (localStorage.getItem('token')) {
-      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
-      this.$router.push('/homeLogin');
-    }
-  },
   methods: {
     async doRegister() {
+      // Validar campos vacíos
+      if (!this.name || !this.username || !this.email || !this.password) {
+        this.message = "Por favor, complete todos los campos";
+        return;
+      }
+
+      // Validar formato de correo electrónico
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.email)) {
+        this.message = "El correo electrónico no tiene un formato válido";
+        return;
+      }
+      
       await this.$store.dispatch('auth/doRegister', {
         email: this.email,
         password: this.password,

@@ -6,7 +6,9 @@
         <div class="date">{{ formatPublicationDate(publication.date) }}</div>
       </div>
       <div class="content">{{ publication.message }}</div>
-      <button v-if="isUserProfileRoute" @click="doDeletePub(publication._id)">Eliminar</button>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-danger btn-sm bi-trash-fill" v-if="isUserProfileRoute" @click="doDeletePub(publication._id)"></button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +34,7 @@ export default {
       this.username = routeParams.username;
     }
 
-    await this.$store.dispatch('auth/doPublicactions', this.username)
+    await this.$store.dispatch('auth/doPublications', this.username)
 
     this.publicationData = this.$store.state.auth.publications
     console.log(this.publicationData)
@@ -60,18 +62,14 @@ export default {
     },
     async doDeletePub(publicationId) {
     // Llama a tu acción o método correspondiente para eliminar la publicación
-    // Puedes utilizar el id de la publicación para identificarla y eliminarla de la lista de publicaciones
-      console.log(publicationId)
-    // Por ejemplo, si estás utilizando Vuex como store, puedes dispatch una acción que maneje la eliminación de la publicación
     await this.$store.dispatch('auth/doDeletePub', publicationId)
     .then(() => {
-      // La publicación se eliminó correctamente, puedes realizar acciones adicionales si es necesario
-        // Vuelve a cargar las publicaciones actualizadas
-      // window.location.reload();
-      console.log(this.$store.state.auth.message);
+      // La publicación se eliminó correctamente
+      // Vuelve a cargar las publicaciones actualizadas
+      window.location.reload();
     })
     .catch(error => {
-      // Ocurrió un error al eliminar la publicación, puedes manejarlo o mostrar un mensaje de error
+      // Ocurrió un error al eliminar la publicación
       console.error('Error al eliminar la publicación:', error);
     });
     },

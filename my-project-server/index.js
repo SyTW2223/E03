@@ -52,16 +52,16 @@ app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
   ////////////////////////////////////////// MEJORAR //////////////////////////////////////
-  let header = {}
-  if ((typeof req.headers.authorization === 'undefined') && (req.method === 'POST')){
-    header = req.body.headers.authorization
-  } else if (req.method === 'POST') {
-    header = req.headers.authorization
-  } else {
-    header = req.header('authorization')
-  }
+  // let header = {}
+  // if ((typeof req.headers.authorization === 'undefined') && (req.method === 'POST')){
+  //   header = req.body.headers.authorization
+  // } else if (req.method === 'POST') {
+  //   header = req.headers.authorization
+  // } else {
+  //   header = req.header('authorization')
+  // }
   ////////////////////////////////////////// MEJORAR //////////////////////////////////////
-  // const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
+  const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]

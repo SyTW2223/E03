@@ -6,25 +6,12 @@
         <div class="col-md-3">
           <!-- Sección de información del perfil -->
           <div class="card mb-3">
-            <div class="profile-image-container">
-              <!-- <img class="card-img-top rounded-circle" :src="userInfo.avatar" alt="Perfil"> -->
-            </div>
+  
             <div class="card-body">
               <!-- <div>{{ logUserInfo }}</div> -->
               <h5 class="card-title" v-if="this.userInfo">@{{ this.userInfo.username }}</h5>
-              <p class="card-text" v-if="this.userInfo">Seguidores: {{ this.userInfo.followers.length }}</p>
-              <p class="card-text" v-if="this.userInfo">Siguiendo: {{ this.userInfo.follows.length }}</p>
-            </div>
-          </div>
-          <!-- Lista de seguidores -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Seguidores</h5>
-              <ul class="list-group">
-                <!-- <li v-for="follower in userInfo.followersList" :key="follower.id" class="list-group-item">
-                  {{ follower.name }}
-                </li> -->
-              </ul>
+              <p class="card-text" v-if="this.userInfo">Seguidores {{ this.userInfo.followers.length }}</p>
+              <p class="card-text" v-if="this.userInfo">Siguiendo {{ this.userInfo.follows.length }}</p>
             </div>
           </div>
         </div>
@@ -34,10 +21,14 @@
             <!-- Formulario para crear nuevos publications -->
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Nuevo publication</h5>
+                <!-- <h5 class="card-title">Nueva publicación</h5> -->
                 <form @submit.prevent="createpublication">
-                  <div class="form-group">
-                    <textarea class="form-control" rows="3" v-model="newpublicationContent"></textarea>
+                  <!-- <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="newpublicationContent"></textarea>
+                  </div> -->
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" v-model="newpublicationContent"></textarea>
+                    <label for="floatingTextarea">Nueva publicacion</label>
                   </div>
                   <button type="submit" class="btn btn-primary">Publicar</button>
                 </form>
@@ -54,6 +45,7 @@
               </div>
             </div>
             <!-- Sección de publications publicados -->
+            <h4>Mis publicaicones</h4>
             <publication/>
           </div>
         </div>

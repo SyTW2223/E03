@@ -5,19 +5,19 @@
 
       <div id="description">
         <h1>Login</h1>
-        <a href= ''><p><small>¿Has olvidado la contraseña?</small></p></a>
-        <div>
-          <a href= 'http://localhost:3000/#/register'>Cree una cuenta</a>
-        </div>
+        <p>¿No estas registrado?</p>
+        <router-link to="/register">
+          <small>Registrete</small>
+        </router-link>
       </div>
       <div id="form">
         <form @submit.prevent="doLogin">
           <label for="email">Email</label>
-          <input type="text" id="email" v-model="email" placeholder="example@outlook.com" autocomplete="off">
+          <input type="text" id="email" v-model="email" placeholder="example@outlook.com" autocomplete="off" required>
 
           <label for="password">Password</label>
           <i class="fas" @click="hidePassword = !hidePassword"></i>
-          <input type="password" id="password" v-model="password" placeholder="**********">
+          <input type="password" id="password" v-model="password" placeholder="**********" required>
 
           <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -63,7 +63,7 @@ data () {
     message: ''
   }
 },
-// cada vez que se recarge la pagina se comprueba si el usario esta
+// cada vez que se recarge la pagina se comprueba si el usario esta logeado
 created() {
   if (localStorage.getItem('token')) {
 
@@ -73,25 +73,37 @@ created() {
       this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
     }
     // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
-    this.$router.push('/homeLogin');
+    this.$router.push(`/homeLogin/${this.$store.state.auth.username}`);
   }
+
 },
 methods: {
   async doLogin () {
     // Llamamos a la acción 'doLogin' en la tienda, pasando el correo electrónico y la contraseña
+    if (!this.email || !this.password) {
+      this.message = "Por favor, complete todos los campos";
+      return;
+    }
+
+    // Validar formato de correo electrónico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      this.message = "El correo electrónico no tiene un formato válido";
+      return;
+    }
+    
     await this.$store.dispatch('auth/doLogin', {
       email: this.email,
       password: this.password
     })
-    // console.log(this.email)
     // Obtenemos el mensaje del servidor desde el estado de la tienda
     this.isAuth = this.$store.state.auth.isAuth
     this.message = this.$store.state.auth.message
-    // console.log(this.message)
+
     if (localStorage.getItem('token')) {
       // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
       this.username = this.$store.state.auth.user.username;
-      // console.log(this.username)
+
       this.$router.push(`/homeLogin/${this.username}`);
     }
   }

@@ -1,36 +1,35 @@
 import express from "express";
-
 import User from "../models/registerModel.js";
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/getAllPublications', async (req, res) => {
+router.get('/getAllPublications/:username', async (req, res) => {
   try {
-    // Obtener todas las publicaciones de todos los usuarios
-    const users = await User.find({}, 'publications').exec();
+    const { username } = req.params;
+    
+    // Encontrar el usuario basado en el nombre de usuario proporcionado
+    const user = await User.findOne({ username }).exec();
+    
+    if (!user) {
+      return res.status(404).json({
+        error: 'Usuario no encontrado',
+      });
+    }
+    
+    const followers = user.follows.map(follower => follower.username);
+    
+    // Encontrar las publicaciones de los usuarios seguidos
+    const publications = await User.find({ username: { $in: followers } }, 'publications')
+    .exec();
 
     // Crear un arreglo para almacenar todas las publicaciones
-    const allPublications = [];
-
-    // Recorrer cada usuario y agregar sus publicaciones al arreglo
-    users.forEach(user => {
-      // const { name, publications } = user;
-      // // Agregar un objeto con el nombre del usuario y sus publicaciones al arreglo
-      // allPublications.push({ name, publications });
-      const { publications } = user;
-      // Agregar un objeto con el nombre del usuario y sus publicaciones al arreglo
-      // console.log(publications.publications)
-      if (publications.length > 0) {
-        allPublications.push(publications);
-      }
-    });
-    console.log(allPublications)
+    const allPublications = publications.flatMap(user => user.publications);
 
     // Devolver todas las publicaciones
     res.status(200).json({
       error: null,
-      message: 'Todas las publicaciones',
-      publications: allPublications
+      message: 'Publicaciones de los usuarios seguidos',
+      publications: allPublications,
     });
   } catch (error) {
     res.status(400).json({

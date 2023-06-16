@@ -1,5 +1,4 @@
 import express from "express";
-
 import User from "../models/registerModel.js";
 
 const router = express.Router();
@@ -8,7 +7,6 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
   const user = req.params.username;
   const userfollow = req.params.finduser;
 
-  // console.log(userfollow);
   if (!userfollow) {
     return res.status(400).json({ error: "El campo 'username' es requerido" });
   }
@@ -29,18 +27,6 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
       // Eliminar el usuario de la lista de seguidos
       usernameAnswer.follows.pull({ username: userfollow });
       finduserAnswer.followers.pull({ username: user });
-
-
-
-      // Incrementar propiedad follows del usuario username
-      // if (usernameAnswer.followers > -1) {
-      //   usernameAnswer.followers -= 1;
-      // }
-
-      // // Incrementar propiedad followers del usuario finduser
-      // if (finduserAnswer.follows > -1) {
-      //   finduserAnswer.follows -= 1;
-      // }
 
       await usernameAnswer.save();
       await finduserAnswer.save();
