@@ -1,4 +1,3 @@
-
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
@@ -7,7 +6,6 @@ import UserProfile from '@/views/UserProfile.vue'
 import FindUser from '@/views/FindUser.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Password from '@/views/Password.vue'
 
 Vue.use(VueRouter)
 
@@ -22,19 +20,22 @@ const routes = [
     path: '/homeLogin/:username',
     name: 'homeLogin',
     component: HomeLogin,
-    meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
+    // Agrega la propiedad meta para indicar que se requiere autenticación
+    meta: { requiresAuth: true }
   },
   {
-    path: '/userProfile/:username', // Utilizamos un parámetro dinámico ":username"
+    // Utilizamos un parámetro dinámico ":username"
+    path: '/userProfile/:username',
     component: UserProfile,
-    props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
-    meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
+    // Habilita la pasada de parámetros como props en lugar de ruta query
+    props: true,
+    meta: { requiresAuth: true }
   },
   {
-    path: '/findUser/:username/:userfind', // Utilizamos un parámetro dinámico ":username"
+    path: '/findUser/:username/:userfind',
     component: FindUser,
-    props: true, // Habilite la pasada de parámetros como props en lugar de ruta query
-    meta: { requiresAuth: true } // Agrega la propiedad meta para indicar que se requiere autenticación
+    props: true,
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -44,10 +45,6 @@ const routes = [
     path: '/register',
     component: Register
   },
-  {
-    path: '/password',
-    component: Password
-  }
 ]
 
 const router = new VueRouter({
@@ -58,7 +55,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(route => route.meta.requiresAuth)) {
     // Verificar si el usuario está autenticado
-    const isAuth = localStorage.getItem('token') // Suponiendo que el token se guarda en el LocalStorage
+    const isAuth = localStorage.getItem('token')
 
     if (isAuth) {
       // El usuario está autenticado, permitir la navegación

@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div v-for="(publication, index) in sortedPublications" :key="index">
-      <div class="publication" v-for="(item, subIndex) in publication" :key="subIndex">
-        <div class="user-info">
-          <div class="username">
-            <router-link v-if="ownuser !== item.username" :to="`/findUser/${ownuser}/${item.username}`" class="custom-link">@{{ item.username }}</router-link>
-            <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">@{{ item.username }}</router-link>
-          </div>
-          <div class="date">{{ formatPublicationDate(item.date) }}</div>
+    <div v-for="(item, index) in publicationData" :key="index" class="publication">
+      <div class="user-info">
+        <div class="username">
+          <router-link v-if="ownuser !== item.username" :to="`/findUser/${ownuser}/${item.username}`" class="custom-link">@{{ item.username }}</router-link>
+          <router-link v-else :to="`/userProfile/${ownuser}`" class="custom-link">@{{ item.username }}</router-link>
         </div>
-        <div class="content">{{ item.message }}</div>
+        <div class="date">{{ formatDate(item.date) }}</div>
       </div>
+      <div class="content">{{ item.message }}</div>
     </div>
   </div>
 </template>
@@ -20,11 +18,12 @@ export default {
   data() {
     return {
       publicationData: [],
-      ownuser: this.$store.state.auth.user.username
+      ownuser: '',
     };
   },
   async created() {
-    await this.$store.dispatch('auth/doAllPublicactions');
+    this.ownuser = this.$store.state.auth.user.username;
+    await this.$store.dispatch('auth/doAllPublicactions', this.ownuser);
     this.publicationData = this.$store.state.auth.allPublications;
   },
   computed: {
@@ -35,10 +34,10 @@ export default {
     },
   },
   methods: {
-    formatPublicationDate(date) {
+    formatDate(date) {
       const publicationDate = new Date(date);
       if (isNaN(publicationDate)) {
-        return ''; // O cualquier valor predeterminado que desees mostrar para fechas no válidas
+        return ''; 
       }
       const formattedDate = publicationDate.toISOString().replace('T', ' ').slice(0, 19);
       return formattedDate;
@@ -46,6 +45,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .publication {
@@ -72,9 +72,9 @@ export default {
   text-align: left;
 }
 .custom-link {
-  color:  #4ea746; /* Cambia el color del enlace según tus necesidades */
-  text-decoration: none; /* Elimina el subrayado del enlace */
-  cursor: pointer; /* Muestra el cursor como puntero */
+  color:  #4ea746; 
+  text-decoration: none; 
+  cursor: pointer;
 }
 
 .date {

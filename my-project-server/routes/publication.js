@@ -25,10 +25,6 @@ router.post('/publication', async (req, res) => {
   const respuesta = await User.findOne({ username: req.body.username }).exec()
     if (!respuesta) return res.status(400).json({error: "Usuario no encontrado"})
 
-    // const tiempoTranscurrido = Date.now();
-
-    // const hoy = new Date(tiempoTranscurrido);
-
     respuesta.publications.push({
         message: req.body.message,
       username: req.body.username,

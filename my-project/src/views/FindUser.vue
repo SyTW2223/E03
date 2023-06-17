@@ -6,14 +6,10 @@
         <div class="col-md-3">
           <!-- Sección de información del perfil -->
           <div class="card mb-3">
-            <div class="profile-image-container">
-              <!-- <img class="card-img-top rounded-circle" :src="userInfo.avatar" alt="Perfil"> -->
-            </div>
             <div class="card-body">
-              <!-- <div>{{ logUserInfo }}</div> -->
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
-              <p class="card-text">Seguidores: {{ this.userInfoFront.follows }}</p>
-              <p class="card-text">Siguiendo: {{ this.userInfoFront.followers }}</p>
+              <p class="card-text">Seguidores {{ this.followers  }}</p>
+              <p class="card-text">Siguiendo {{ this.follows }}</p>
               <button class="btn btn-primary" @click="followUser">{{ checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
               <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -30,21 +26,11 @@
               </div>
             </div>
           </div>
-          <!-- Lista de seguidores -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Seguidores</h5>
-              <ul class="list-group">
-                <!-- <li v-for="follower in userInfo.followersList" :key="follower.id" class="list-group-item">
-                  {{ follower.name }}
-                </li> -->
-              </ul>
-            </div>
-          </div>
         </div>
         <div class="col-md-9">
           <div class="bigcard">
             <!-- Sección de publications publicados -->
+            <h4>Publicaicones</h4>
             <publication/>
           </div>
         </div>
@@ -63,21 +49,6 @@ export default {
     Navbar,
     publication,
   },
-  computed: {
-    // ...mapState('auth', ['findUser']), // Importa la propiedad findUser del módulo auth
-    // followers() {
-    //   if (this.findUser && this.findUser.followersUser) {
-    //     return this.findUser.followersUser.length; // Retorna la cantidad de seguidores
-    //   }
-    //   return 0;
-    // },
-    // following() {
-    //   if (this.findUser && this.findUser.followsUser) {
-    //     return this.findUser.followsUser.length; // Retorna la cantidad de usuarios seguidos
-    //   }
-    //   return 0;
-    // }
-  },
   data() {
     return {
       newpublicationContent: '',
@@ -85,7 +56,9 @@ export default {
       message: '',
       user: '',
       userfind: '',
-      checkFollow: false
+      checkFollow: false,
+      follows: 0,
+      followers: 0
 
     };
   },
@@ -98,11 +71,13 @@ export default {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
       const finduser = this.$route.params.userfind;
-      // console.log(finduser)
+
 
       if (finduser) {
         await this.$store.dispatch('auth/doGetUser', finduser)
         this.userInfoFront = this.$store.state.auth.findUser
+        this.follows = this.userInfoFront.follows.length
+        this.followers = this.userInfoFront.followers.length
       }
 
       this.user = this.$route.params.username;
@@ -130,7 +105,7 @@ export default {
         this.checkFollow = true
 
         // Incrementar el número de usuarios seguidos
-        this.userInfoFront.follows++;
+        this.followers++;
       } else {
         // Lógica para dejar de seguir al usuario
         await this.unfollowUser();
@@ -147,7 +122,7 @@ export default {
       this.checkFollow = false; // Actualiza checkFollow a true
 
       // Decrementar el número de usuarios seguidos
-      this.userInfoFront.follows--;
+      this.followers--;
     },
     async createpublication() {
       // Lógica para crear un nuevo publication
@@ -157,7 +132,7 @@ export default {
 };
 </script>
 
-  
+
 <style>
 
 .card {

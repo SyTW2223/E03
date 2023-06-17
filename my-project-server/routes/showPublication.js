@@ -5,7 +5,6 @@ import User from "../models/registerModel.js";
 const router = express.Router();
 
 router.get('/getPublications/:username', async (req, res) => {
-  // console.log('api')
   try {
     const username = req.params.username;
 

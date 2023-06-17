@@ -5,12 +5,6 @@
         <img src="../assets/chameleon (3).png" alt="Logo" style="width: auto; height: 40px;" class="d-inline-block align-text-top">
         MobTycoon
       </router-link>
-      <!-- <form class="d-flex" role="botton">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <router-link to="/login" class="btn btn-login " type="button">Login</router-link>
-          <router-link to="/register" class="btn btn-register " type="button">Registro</router-link>
-        </div>
-      </form> -->
     </div>
   </nav>
 </template>

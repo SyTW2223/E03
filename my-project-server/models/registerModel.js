@@ -42,17 +42,17 @@ const dataSchema = new mongoose.Schema({
     trim: true,
     type: String,
   },
-  follows: {
-    type: Number,
-  },
-  followers: {
-    type: Number,
-  },
+  // follows: {
+  //   type: Number,
+  // },
+  // followers: {
+  //   type: Number,
+  // },
   publications: [publicationSchema],
 
-  followsUser: [followsUserSchema],
+  follows: [followsUserSchema],
 
-  followersUser: [followsUserSchema],
+  followers: [followsUserSchema],
 })
 
 export default mongoose.model('Users', dataSchema);

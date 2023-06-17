@@ -1,11 +1,6 @@
 import express from "express";
-
-// import Joi from "@hapi/joi";
 import User from "../models/registerModel.js";
 
-// const schemaUser = Joi.object({
-//   username: Joi.string().required(),
-// });
 
 const router = express.Router();
 

@@ -1,5 +1,4 @@
 import express from "express";
-
 import User from "../models/registerModel.js";
 
 const router = express.Router();
@@ -8,7 +7,6 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
   const user = req.params.username;
   const userfollow = req.params.finduser;
 
-  // console.log(userfollow);
   if (!userfollow) {
     return res.status(400).json({ error: "El campo 'username' es requerido" });
   }
@@ -17,12 +15,9 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
     const usernameAnswer = await User.findOne({ username: user }).exec();
     const finduserAnswer = await User.findOne({ username: userfollow }).exec();
 
-    const checkUser = await User.findOne({ "followsUser.username": userfollow }).exec();
+    const checkUser = await User.findOne({ "follows.username": userfollow }).exec();
 
-    const checkfollower = await User.findOne({ "followersUser.username": user }).exec();
-
-    console.log('hi', finduserAnswer);
-    console.log('check', checkUser);
+    const checkfollower = await User.findOne({ "followers.username": user }).exec();
 
     if (!usernameAnswer || !finduserAnswer) {
       return res.status(400).json({ error: "Usuario no encontrado" });
@@ -30,20 +25,8 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
 
     if (checkUser && checkfollower) {
       // Eliminar el usuario de la lista de seguidos
-      usernameAnswer.followsUser.pull({ username: userfollow });
-      finduserAnswer.followersUser.pull({ username: user });
-
-
-
-      // Incrementar propiedad follows del usuario username
-      if (usernameAnswer.followers > -1) {
-        usernameAnswer.followers -= 1;
-      }
-
-      // Incrementar propiedad followers del usuario finduser
-      if (finduserAnswer.follows > -1) {
-        finduserAnswer.follows -= 1;
-      }
+      usernameAnswer.follows.pull({ username: userfollow });
+      finduserAnswer.followers.pull({ username: user });
 
       await usernameAnswer.save();
       await finduserAnswer.save();

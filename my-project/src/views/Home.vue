@@ -1,136 +1,98 @@
 <template>
-<div>
-  <Navbar/>
-  <div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 custom-color-navbar">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <router-link to="/login" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-box-arrow-in-right custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Iniciar sesión</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link to="/register" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-person-add custom-color"></i> <span class="ms-1 d-none d-sm-inline custom-color">Registrarse</span>
-                        </router-link>
-                    </li>
-                </ul>
-                <hr>
-            </div>
-        </div>
-        <div class="col py-3">
-          <div class="container">
-            <div>
-              <div class="row" style="height: 100%;">
-                <div class="col-lg-7 pr-lg-4 custom-column column-margin">
-                  <!-- Columna izquierda (mayor) -->
-                  <div class="d-flex justify-content-center mb-3">
-                    <!-- Buscador -->
-                    <input type="text" class="form-control" placeholder="Buscar">
-                  </div>
-                  <div class="list-group">
-                    <!-- Lista de publications -->
-                    <!-- <a href="#" class="list-group-item list-group-item-action">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">@usuario1</h5>
-                        <small>Fecha del publication</small>
-                      </div>
-                      <p class="mb-1">Contenido del publication...</p>
-                      <small>Enlace o información adicional</small>
-                    </a> -->
-                    <!-- Agrega más publications aquí -->
-                    
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 custom-column column-margin">
-                  <!-- Columna derecha -->
-                  <h3>Recomendaciones</h3>
-                    <RecommendedUsers/>
-                    <!-- Recomendaciones de usuarios -->
-                </div>
-              </div>
-            </div>
+  <div class="main-page">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 text-center">
+          <img src="../assets/chameleon (3).png" alt="Logo" class="logo">
+          <h1 class="app-name">MobTycoon</h1>
+          <div class="buttons">
+            <button class="custom-button-login" @click="redirectToLogin">Iniciar sesión</button>
+            <button class="custom-button-register" @click="redirectToRegister">Registrarse</button>
           </div>
         </div>
+      </div>
     </div>
-  </div>
-
   </div>
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue";
-import Sidebar from "../components/Sidebar.vue";
-import publication from "../components/Publication.vue";
-import RecommendedUsers from "../components/RecommendedUsers.vue";
-
 export default {
-  components: {
-    Navbar,
-    Sidebar,
-    publication,
-    RecommendedUsers,
-  },
-  data() {
-    return {
-      publications: [],
-      sidebarActive: false,
-    };
-  },
+  // cada vez que se recarge la pagina se comprueba si el usario esta logeado
   created() {
     if (localStorage.getItem('token')) {
-      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
+
       const storedUserInfo = localStorage.getItem('user');
 
       if (storedUserInfo) {
         this.$store.commit('auth/setUser', JSON.parse(storedUserInfo));
       }
+      // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
       this.$router.push(`/homeLogin/${this.$store.state.auth.user.username}`);
     }
   },
-  computed: {
-    isMobile() {
-      return window.innerWidth <= 768;
-    },
-  },
   methods: {
-    toggleSidebar() {
-      this.sidebarActive = !this.sidebarActive;
+    redirectToLogin() {
+      this.$router.push('/login');
     },
-  },
-};
+    redirectToRegister() {
+      this.$router.push('/register');
+    }
+  }
+}
 </script>
 
 <style>
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
+.main-page {
+  background-color: #000000;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.custom-color {
-  color: #5dca53; /* Color personalizado en formato hexadecimal */
+.logo {
+  width: 100px;
+  height: 100px;
 }
-.custom-color-navbar {
-  background-color: #252529; /* Reemplaza #ff0000 con tu color personalizado en formato hexadecimal */
-}
-.custom-border {
-  border-right: 3px solid rgb(76, 170, 76);
-  height: 100%;
-}
-.custom-column {
-    border-radius: 10px;
-    background-color: #f1f1f1;
-    padding: 20px;
-  }
 
-  .column-margin {
-    margin-right: 10px;
-    margin-left: 10px;
-  }
+.app-name {
+  color: #ffffff;
+  font-size: 24px;
+  margin-top: 16px;
+}
+
+.buttons {
+  margin-top: 32px;
+}
+
+.buttons button {
+  margin-right: 10px;
+}
+
+.custom-button-login,
+.custom-button-register {
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-button-login {
+  background-color: #5faa5f;
+}
+
+.custom-button-register {
+  background-color: #6e6e6e;
+}
+
+.custom-button-login:hover {
+  background-color: #458f45;
+}
+
+.custom-button-register:hover {
+  background-color: #5f5f5f;
+}
 </style>
