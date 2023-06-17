@@ -65,6 +65,7 @@ const verifyToken = async (req, res, next) => {
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]
+    console.log(`\nValor del token => ${token}`)
     await jwt.verify(token, process.env.TOKEN_SECRET, async (err) => {
       if (err) {
         res.status(401).json({ error: 'token no es válido' })
