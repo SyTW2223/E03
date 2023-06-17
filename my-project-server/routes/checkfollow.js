@@ -4,6 +4,7 @@ import User from "../models/registerModel.js";
 const router = express.Router()
 
 router.post('/checkfollowing/:username/:finduser', async (req, res) => {
+  console.log(req.params)
   const user = req.params.username;
   const userfollow = req.params.finduser;
 
@@ -23,7 +24,7 @@ router.post('/checkfollowing/:username/:finduser', async (req, res) => {
 
     if (checkUser == null) {
       return res.status(400).json({
-        error: 'Usuario sin siguir',
+        error: 'Usuario sin seguir',
       });
     }
     return res.status(200).json({
