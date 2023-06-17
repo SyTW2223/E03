@@ -7,7 +7,7 @@
         <h1>Login</h1>
         <p>¿No estas registrado?</p>
         <router-link to="/register">
-          <small>Registrete</small>
+          <small>Registrate</small>
         </router-link>
       </div>
       <div id="form">
@@ -91,7 +91,7 @@ methods: {
       this.message = "El correo electrónico no tiene un formato válido";
       return;
     }
-    
+
     await this.$store.dispatch('auth/doLogin', {
       email: this.email,
       password: this.password
