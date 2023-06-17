@@ -23,7 +23,7 @@ router.post('/checkfollowing/:username/:finduser', async (req, res) => {
 
     if (checkUser == null) {
       return res.status(400).json({
-        error: 'Usuario sin siguir',
+        error: 'Usuario sin seguir',
       });
     }
     return res.status(200).json({
