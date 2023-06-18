@@ -35,12 +35,19 @@ export default {
   },
   methods: {
     formatDate(date) {
-      const publicationDate = new Date(date);
-      if (isNaN(publicationDate)) {
-        return ''; 
-      }
-      const formattedDate = publicationDate.toISOString().replace('T', ' ').slice(0, 19);
-      return formattedDate;
+      const options = {
+      timeZone: 'Atlantic/Canary',
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const formattedDate = new Date(date).toLocaleString('es', options);
+    return formattedDate;
+
     },
   },
 };

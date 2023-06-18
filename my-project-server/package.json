@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha"
+    "test": "mocha --timeout 5000 --exit",
+    "coverage": "c8 npm run test"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,8 @@
     "mongoose": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "c8": "^8.0.0",
+    "nodemon": "^2.0.22",
+    "nyc": "^15.1.0"
   }
 }

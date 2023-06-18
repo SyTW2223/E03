@@ -8,8 +8,8 @@
           <div class="card mb-3">
             <div class="card-body">
               <h5 class="card-title">@{{ this.userInfoFront.username }}</h5>
-              <p class="card-text">Seguidores {{ this.followers  }}</p>
-              <p class="card-text">Siguiendo {{ this.follows }}</p>
+              <p class="card-text seguidores">Seguidores {{ this.followers  }}</p>
+              <p class="card-text siguiendo">Siguiendo {{ this.follows }}</p>
               <button class="btn btn-primary" @click="followUser">{{ checkFollow ? 'Siguiendo' : 'Seguir' }}</button>
               <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">

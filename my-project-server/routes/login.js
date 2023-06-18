@@ -5,6 +5,8 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import User from "../models/registerModel.js"
 
+
+
 const schemaLogin = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required()

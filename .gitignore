@@ -1,3 +1,4 @@
 node_modules/
 my-project-server/.env
 my-project/.env
+coverage/
