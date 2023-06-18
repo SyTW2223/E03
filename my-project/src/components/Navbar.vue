@@ -9,7 +9,7 @@
   </nav>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   computed: {
     isMobile() {

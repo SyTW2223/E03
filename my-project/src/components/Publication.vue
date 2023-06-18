@@ -22,22 +22,20 @@ export default {
     };
     
   },
-  async created () {
-    // const user = this.$route.params.username;
+  async created() {
     const routeParams = this.$route.params;
 
     if (routeParams.userfind) {
-      // Ruta /findUser/:username/:userfind
       this.username = routeParams.userfind;
     } else {
-      // Ruta /userProfile/:username
       this.username = routeParams.username;
     }
 
-    await this.$store.dispatch('auth/doPublications', this.username)
+    await this.$store.dispatch('auth/doPublications', this.username);
 
-    this.publicationData = this.$store.state.auth.publications
-    console.log(this.publicationData)
+    this.$nextTick(() => {
+      this.publicationData = this.$store.state.auth.publications;
+    });
   },
   computed: {
     sortedPublications() {
@@ -51,14 +49,19 @@ export default {
   },
   methods: {
     formatPublicationDate(date) {
-      const parsedDate = new Date(date);
-      
-      if (isNaN(parsedDate.getTime())) {
-        return '';
-      }
-      
-      const formattedDate = parsedDate.toISOString().replace('T', ' ').slice(0, 19);
-      return formattedDate;
+      const options = {
+      timeZone: 'Atlantic/Canary',
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const formattedDate = new Date(date).toLocaleString('es', options);
+    return formattedDate;
+
     },
     async doDeletePub(publicationId) {
     // Llama a tu acción o método correspondiente para eliminar la publicación
