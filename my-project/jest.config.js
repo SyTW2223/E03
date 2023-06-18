@@ -4,4 +4,7 @@ module.exports = {
     '^.+\\.vue$': '@vue/vue2-jest',
     '^.+\\.js$': 'babel-jest',
   },
+  coverageReporters: [
+    'lcov'
+  ]
 };

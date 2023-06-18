@@ -8,7 +8,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "mocha --timeout 5000 --exit",
-    "coverage": "c8 npm run test && c8 report --reporter=text-lcov | coveralls && rm -rf .nyc_output coverage"
+    "coverage": "c8 npm run test && c8 report --reporter=lcov "
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,6 @@
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
     "cors": "^2.8.5",
-    "coveralls": "^3.1.1",
     "dotenv": "^16.0.3",
     "express": "4.18.2",
     "joi": "^17.9.2",

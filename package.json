@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "npm run test --prefix ./my-project && npm run test --prefix ./my-project-server"
+    "test": "npm run test --prefix ./my-project && npm run test --prefix ./my-project-server",
+    "coverage": "npm run coverage --prefix ./my-project && npm run coverage --prefix ./my-project-server"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
