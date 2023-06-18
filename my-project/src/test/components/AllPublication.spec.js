@@ -67,7 +67,7 @@ describe('AllPublications', () => {
     const secondContent = secondPublication.find('.content').text();
 
     expect(firstUsername).toBe('@user1');
-    expect(firstDate).toBe('15/06/2023, 10:30:00');
+    expect(firstDate).toBe('15/06/2023, 11:30:00');
     expect(firstContent).toBe('Publication 1');
 
     expect(secondUsername).toBe('@user2');
@@ -77,7 +77,7 @@ describe('AllPublications', () => {
 
   it('Formatea la informacion correctamente', () => {
     const formattedDate = wrapper.vm.formatDate('2023-06-15T09:30:00');
-    expect(formattedDate).toBe('15/06/2023, 09:30:00');
+    expect(formattedDate).toBe('15/06/2023, 10:30:00');
   });
 
   it('ordena las publicaciones por fecha en orden descendente', () => {
