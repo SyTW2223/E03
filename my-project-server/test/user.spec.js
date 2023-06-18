@@ -4,12 +4,12 @@ import chaiHttp from 'chai-http'
 import { config } from 'dotenv'
 import app from '../index.js'
 
+
 config()
 chai.use(chaiHttp)
 
 describe('Obtenemos perfil del usuario', () => {
   let token = undefined
-  let id = undefined
   before((done) => {
     chai.request(app)
     .post("/api/login")
