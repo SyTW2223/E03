@@ -17,7 +17,7 @@ router.post('/unfollowing/:username/:finduser', async (req, res) => {
 
     const checkUser = await User.findOne({ "username": user, "follows.username": userfollow }).exec();
 
-    const checkfollower = await User.findOne({ "followers.username": user }).exec();
+    const checkfollower = await User.findOne({ "username": userfollow, "followers.username": user }).exec();
 
     if (!usernameAnswer || !finduserAnswer) {
       return res.status(400).json({ error: "Usuario no encontrado" });
