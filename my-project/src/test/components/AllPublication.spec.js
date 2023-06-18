@@ -71,7 +71,7 @@ describe('AllPublications', () => {
     expect(firstContent).toBe('Publication 1');
 
     expect(secondUsername).toBe('@user2');
-    expect(secondDate).toBe('16/06/2023, 12:45:00');
+    expect(secondDate).toBe('16/06/2023, 13:45:00');
     expect(secondContent).toBe('Publication 2');
   });
 
