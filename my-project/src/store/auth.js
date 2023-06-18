@@ -75,7 +75,7 @@ state: {
     async doLogin({ commit }, credentials) {
       try {
         // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-        const response = await axios.post('http://localhost:8080/api/login', {
+        const response = await axios.post('https://e03-production.up.railway.app/api/login', {
           // pasamos el correo electrónico almacenado en el estado
           email: credentials.email,
           // pasamos la contraseña almacenada en el estado
@@ -116,7 +116,7 @@ state: {
     async doRegister({ commit }, credentials) {
       try {
         // Enviamos una solicitud POST a la URL de inicio de sesión utilizando axios
-        const response = await axios.post('http://localhost:8080/api/register', {
+        const response = await axios.post('https://e03-production.up.railway.app/api/register', {
           // pasamos el correo electrónico almacenado en el estado
           email: credentials.email,
           // pasamos la contraseña almacenada en el estado
@@ -146,7 +146,7 @@ state: {
         console.log(state.findUser)
         try {
           // Enviar una solicitud POST para publicar un mensaje
-          const response = await axios.post('http://localhost:8080/api/publication', {
+          const response = await axios.post('https://e03-production.up.railway.app/api/publication', {
             // Obtener el nombre de usuario del estado
             username: state.findUser.username, 
             // Pasar el mensaje como parámetro
@@ -168,7 +168,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realizar una solicitud GET para buscar usuarios
-          const response = await axios.get(`http://localhost:8080/api/searchUser/${usernameSearch}`, {
+          const response = await axios.get(`https://e03-production.up.railway.app/api/searchUser/${usernameSearch}`, {
             headers: {
               // Agregar el token de autenticación en los encabezados de la solicitud
               authorization: 'Bearer ' + state.token
@@ -191,7 +191,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realizar una solicitud GET para obtener información del usuario
-          const response = await axios.get(`http://localhost:8080/api/getUser/${username}`, {
+          const response = await axios.get(`https://e03-production.up.railway.app/api/getUser/${username}`, {
             headers: {
               // Agregar el token de autenticación en los encabezados de la solicitud
               authorization: 'Bearer ' + state.token 
@@ -213,7 +213,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realiza una solicitud GET para obtener las publicaciones del usuario
-          const response = await axios.get(`http://localhost:8080/api/getPublications/${username}`, {
+          const response = await axios.get(`https://e03-production.up.railway.app/api/getPublications/${username}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
@@ -235,7 +235,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realiza una solicitud DELETE para eliminar la publicación
-          const response = await axios.delete(`http://localhost:8080/api/deletePub/${publicationId}`, {
+          const response = await axios.delete(`https://e03-production.up.railway.app/api/deletePub/${publicationId}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             },
@@ -260,7 +260,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realiza una solicitud GET para obtener todas las publicaciones del usuario
-          const response = await axios.get(`http://localhost:8080/api/getAllPublications/${username}`, {
+          const response = await axios.get(`https://e03-production.up.railway.app/api/getAllPublications/${username}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
@@ -283,7 +283,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realiza una solicitud POST para seguir al usuario
-          const response = await axios.post(`http://localhost:8080/api/following/${username}/${finduser}`, {
+          const response = await axios.post(`https://e03-production.up.railway.app/api/following/${username}/${finduser}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
@@ -306,7 +306,7 @@ state: {
           console.log(username, finduser);
 
           // Realiza una solicitud POST para dejar de seguir al usuario
-          const response = await axios.post(`http://localhost:8080/api/unfollowing/${username}/${finduser}`, {
+          const response = await axios.post(`https://e03-production.up.railway.app/api/unfollowing/${username}/${finduser}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
@@ -326,7 +326,7 @@ state: {
       if (state.isAuth) {
         try {
           // Realiza una solicitud POST para verificar el seguimiento
-          const response = await axios.post(`http://localhost:8080/api/checkfollowing/${username}/${finduser}`, {
+          const response = await axios.post(`https://e03-production.up.railway.app/api/checkfollowing/${username}/${finduser}`, {
             headers: {
               authorization: 'Bearer ' + state.token
             }
