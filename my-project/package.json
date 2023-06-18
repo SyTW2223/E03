@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "test": "jest"
 
   },
   "dependencies": {
