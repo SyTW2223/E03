@@ -143,7 +143,6 @@ state: {
     async sendPublication({ commit, state }, message) {
       // Verificar si el usuario está autenticado
       if (state.isAuth) {
-        console.log(state.findUser)
         try {
           // Enviar una solicitud POST para publicar un mensaje
           const response = await axios.post('https://e03-production.up.railway.app/api/publication', {
@@ -302,8 +301,6 @@ state: {
     async doUnfollowing({ commit, state }, { username, finduser }) {
       if (state.isAuth) {
         try {
-          // Imprime los valores de los parámetros username y finduser en la consola
-          console.log(username, finduser);
 
           // Realiza una solicitud POST para dejar de seguir al usuario
           const response = await axios.post(`https://e03-production.up.railway.app/api/unfollowing/${username}/${finduser}`, {

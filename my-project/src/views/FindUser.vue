@@ -85,7 +85,6 @@ export default {
 
       await this.$store.dispatch('auth/doCheckFollow', { username: this.user, finduser: this.userfind })
 
-      console.log(this.$store.state.auth.message)
       if (!this.$store.state.auth.message.error) {
         this.checkFollow = true
         this.message = this.$store.state.auth.message.error
@@ -93,7 +92,6 @@ export default {
         this.checkFollow = false
         this.message = this.$store.state.auth.message.message
       }
-      console.log(this.checkFollow)
     }
   },
   methods: {

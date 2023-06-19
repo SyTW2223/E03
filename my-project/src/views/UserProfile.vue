@@ -81,8 +81,6 @@ export default {
         await this.$store.dispatch('auth/doGetUser', user)
         this.userInfo = this.$store.state.auth.findUser
       }
-      console.log(this.$store.state.auth.findUser)
-      // console.log(this.userInfo.)
     }
   },
   methods: {

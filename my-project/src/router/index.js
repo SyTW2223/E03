@@ -48,7 +48,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 // Verificar la autenticación antes de cada navegación
