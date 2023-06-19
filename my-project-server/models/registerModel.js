@@ -7,7 +7,6 @@ const publicationSchema = new mongoose.Schema({
   },
   message: {
     type: String,
-    // required: true,
   },
   date: {
     type: Date,
@@ -42,12 +41,6 @@ const dataSchema = new mongoose.Schema({
     trim: true,
     type: String,
   },
-  // follows: {
-  //   type: Number,
-  // },
-  // followers: {
-  //   type: Number,
-  // },
   publications: [publicationSchema],
 
   follows: [followsUserSchema],

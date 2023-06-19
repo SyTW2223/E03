@@ -51,7 +51,6 @@ const createLog = (req, res, next) => {
 app.use(createLog)
 
 const verifyToken = async (req, res, next) => {
-  ////////////////////////////////////////// MEJORAR //////////////////////////////////////
   let header = {}
   if ((typeof req.headers.authorization === 'undefined') && (req.method === 'POST')){
     header = req.body.headers.authorization
@@ -60,12 +59,9 @@ const verifyToken = async (req, res, next) => {
   } else {
     header = req.header('authorization')
   }
-  ////////////////////////////////////////// MEJORAR //////////////////////////////////////
-  //const header = req.method === 'POST' ? req.body.headers.authorization : req.header('authorization')
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ')
     const token = bearer[1]
-    console.log(`\nValor del token => ${token}`)
     await jwt.verify(token, process.env.TOKEN_SECRET, async (err) => {
       if (err) {
         res.status(401).json({ error: 'token no es válido' })
@@ -74,7 +70,6 @@ const verifyToken = async (req, res, next) => {
       }
     })
   } else {
-    // console.log(req)
     return res.status(401).json({ error: 'Acceso denegado' })
   }
 }

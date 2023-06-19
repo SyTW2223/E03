@@ -4,7 +4,6 @@ import User from "../models/registerModel.js";
 const router = express.Router()
 
 router.post('/checkfollowing/:username/:finduser', async (req, res) => {
-  console.log(req.params)
   const user = req.params.username;
   const userfollow = req.params.finduser;
 

@@ -37,7 +37,6 @@ router.delete('/deletePub/:publicationId', async (req, res) => {
       publicationId: publicationId
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Error en el servidor' }); // Si ocurre un error en el servidor, devolver un error
   }
 });
