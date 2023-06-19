@@ -10,7 +10,7 @@ En la aplicacion los usuarios pueden realizar las siguientes acciones:
 
 * Inicio de sesión: Una vez registrados, los usuarios pueden iniciar sesión en la aplicación utilizando sus credenciales de usuario (correo electrónico y contraseña).
 
-* Publicar contenido: Después de iniciar sesión, los usuarios pueden crear y publicar contenido, como mensajes, imágenes o enlaces, para compartir con otros usuarios.
+* Publicar contenido: Después de iniciar sesión, los usuarios pueden crear y publicar contenido, como mensajes, o enlaces, para compartir con otros usuarios.
 
 * Explorar publicaciones: Los usuarios pueden explorar las publicaciones realizadas por otros usuarios en la aplicación. Pueden ver el contenido, la fecha de publicación y el nombre de usuario del autor.
 
