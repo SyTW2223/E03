@@ -45,7 +45,7 @@
               </div>
             </div>
             <!-- Sección de publications publicados -->
-            <h4>Mis publicaicones</h4>
+            <h4>Mis publicaciones</h4>
             <publication/>
           </div>
         </div>

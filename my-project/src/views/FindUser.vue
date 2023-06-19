@@ -30,7 +30,7 @@
         <div class="col-md-9">
           <div class="bigcard">
             <!-- Sección de publications publicados -->
-            <h4>Publicaicones</h4>
+            <h4>Publicaciones</h4>
             <publication/>
           </div>
         </div>
