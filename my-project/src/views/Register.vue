@@ -95,7 +95,7 @@ export default {
         this.message = "El correo electrónico no tiene un formato válido";
         return;
       }
-      
+
       await this.$store.dispatch('auth/doRegister', {
         email: this.email,
         password: this.password,
@@ -106,11 +106,14 @@ export default {
       // valores del store
       this.isAuth = this.$store.state.auth.isAuth
       this.message = this.$store.state.auth.message
+      if(this.isAuth) {
+        // Si el registro fue exitoso, redirige al usuario a la página deseada
+        this.$router.push('/login');
+      }
       if (localStorage.getItem('token')) {
         // Si hay un token en el LocalStorage, redirige al usuario a la página deseada
         this.$router.push('/homeLogin');
       }
-      this.$router.push('/Login');
 
       // Eliminar el token del almacenamiento de sesión al cerrar el navegador
       window.addEventListener('beforeunload', function() {
