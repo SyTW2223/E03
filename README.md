@@ -8,7 +8,7 @@ En la aplicacion los usuarios pueden realizar las siguientes acciones:
 
 * Registro: Los usuarios pueden registrarse en la aplicación creando una cuenta con su información personal, como nombre de usuario, correo electrónico y contraseña.
 
-* Inicio de sesión: Una vez registrados, los usuarios pueden iniciar sesión en la aplicación utilizando sus credenciales de usuario (nombre de usuario o correo electrónico y contraseña).
+* Inicio de sesión: Una vez registrados, los usuarios pueden iniciar sesión en la aplicación utilizando sus credenciales de usuario (correo electrónico y contraseña).
 
 * Publicar contenido: Después de iniciar sesión, los usuarios pueden crear y publicar contenido, como mensajes, imágenes o enlaces, para compartir con otros usuarios.
 
